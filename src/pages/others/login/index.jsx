@@ -5,8 +5,8 @@ import LoginForm from "@/components/common/LoginForm";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Login || GoTrip - Travel & Tour ReactJs Template",
-  description: "GoTrip - Travel & Tour ReactJs Template",
+  title: "Login || Accommodate me",
+  description: "login || Accommodate me",
 };
 
 const LogIn = () => {

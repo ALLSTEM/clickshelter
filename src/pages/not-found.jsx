@@ -4,8 +4,8 @@ import NotFound from "@/components/common/NotFound";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "404 || GoTrip - Travel & Tour ReactJs Template",
-  description: "GoTrip - Travel & Tour ReactJs Template",
+  title: "Accommodate me - 404",
+  description: "Accommodate me - 404",
 };
 
 const NotFoundPage = () => {

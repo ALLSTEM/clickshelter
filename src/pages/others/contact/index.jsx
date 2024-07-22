@@ -9,8 +9,8 @@ import LocationTopBar from "@/components/common/LocationTopBar";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Contact || GoTrip - Travel & Tour ReactJs Template",
-  description: "GoTrip - Travel & Tour ReactJs Template",
+  title: "Contact || Accommodate me",
+  description: "Contact || Accommodate me",
 };
 
 const Contact = () => {

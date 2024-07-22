@@ -9,8 +9,8 @@ import MainFilterSearchBox from "@/components/house-list/MainFilterSearchBox";
 import Pagination from "@/components/house-list/common/Pagination";
 
 const metadata = {
-  title: "Hotel List v5 || GoTrip - Travel & Tour ReactJs Template",
-  description: "GoTrip - Travel & Tour ReactJs Template",
+  title: "Space list",
+  description: "Space list",
 };
 
 const HouseListPage = () => {

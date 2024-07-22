@@ -8,8 +8,8 @@ import Counter from "@/components/counter/Counter";
 import ParallaxBanner from "@/components/banner/ParallaxBanner";
 
 const metadata = {
-  title: "Home-1 || GoTrip - Travel & Tour ReactJs Template",
-  description: "GoTrip - Travel & Tour ReactJs Template",
+  title: "Accommodate Me home",
+  description: "Accommodate Me home",
 };
 
 const HomePage = () => {

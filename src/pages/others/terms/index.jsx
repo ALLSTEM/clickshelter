@@ -4,8 +4,8 @@ import TermsConent from "@/components/common/TermsConent";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Terms & Conditions || GoTrip - Travel & Tour ReactJs Template",
-  description: "GoTrip - Travel & Tour ReactJs Template",
+  title: "Terms & Conditions || Accommodate me",
+  description: "Terms & Conditions || Accommodate me",
 };
 
 const Terms = () => {
