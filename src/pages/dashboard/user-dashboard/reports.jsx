@@ -3,114 +3,12 @@ import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import ReportTable from "@/components/tables/report-table";
+import { reportData } from "@/data/dummy";
 
 const metadata = {
   title: "User Reports",
   description: "User reports",
 };
-
-const reports = [
-  {
-    space_id: "CP001",
-    type: "Maintenance",
-    details: "Leaky faucet in the kitchen",
-    host: "John Doe",
-    occupant: "Jane Smith",
-    assigned_to: "Michael Brown",
-    status: "processing",
-    createdAt: "2023-06-15",
-  },
-  {
-    space_id: "CP002",
-    type: "Noise",
-    details: "Loud music from neighbor",
-    host: "Alice Johnson",
-    occupant: "Mark Robinson",
-    assigned_to: "Not Assigned",
-    status: "pending",
-    createdAt: "2023-07-01",
-  },
-  {
-    space_id: "CP003",
-    type: "Cleanliness",
-    details: "Garbage not being disposed of properly",
-    host: "Robert Lee",
-    occupant: "David Williams",
-    assigned_to: "Emily Davis",
-    status: "resolved",
-    createdAt: "2023-07-10",
-  },
-  {
-    space_id: "CP004",
-    type: "Rent Dispute",
-    details: "Disagreement over rent amount",
-    host: "Sarah Kim",
-    occupant: "Tom Thompson",
-    assigned_to: "Chris Green",
-    status: "processing",
-    createdAt: "2023-07-12",
-  },
-  {
-    space_id: "CP005",
-    type: "Security",
-    details: "Broken lock on the front door",
-    host: "Kevin White",
-    occupant: "Jessica Brown",
-    assigned_to: "Not Assigned",
-    status: "pending",
-    createdAt: "2023-07-14",
-  },
-  {
-    space_id: "CP006",
-    type: "Maintenance",
-    details: "Air conditioning not working",
-    host: "Laura Blue",
-    occupant: "Peter Green",
-    assigned_to: "Samuel Black",
-    status: "processing",
-    createdAt: "2023-07-16",
-  },
-  {
-    space_id: "CP007",
-    type: "Noise",
-    details: "Constant dog barking",
-    host: "Nina Yellow",
-    occupant: "Olivia Grey",
-    assigned_to: "Not Assigned",
-    status: "pending",
-    createdAt: "2023-07-17",
-  },
-  {
-    space_id: "CP008",
-    type: "Cleanliness",
-    details: "Common area not cleaned",
-    host: "Mark Silver",
-    occupant: "Lucas White",
-    assigned_to: "Hannah Gold",
-    status: "resolved",
-    createdAt: "2023-07-18",
-  },
-  {
-    space_id: "CP009",
-    type: "Rent Dispute",
-    details: "Dispute over utility charges",
-    host: "Rachel Red",
-    occupant: "Sophia Violet",
-    assigned_to: "James Orange",
-    status: "processing",
-    createdAt: "2023-07-19",
-  },
-  {
-    space_id: "CP010",
-    type: "Security",
-    details: "Unauthorized entry reported",
-    host: "Bruce Blue",
-    occupant: "Ethan Indigo",
-    assigned_to: "Not Assigned",
-    status: "pending",
-    createdAt: "2023-07-20",
-  },
-];
 
 export default function UserReports() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -273,7 +171,7 @@ export default function UserReports() {
         {/* End d-flex */}
 
         <ReportTable
-          data={reports}
+          data={reportData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />

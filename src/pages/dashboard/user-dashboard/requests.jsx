@@ -3,124 +3,13 @@ import React, { useState } from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 import RequestTable from "@/components/tables/request-table";
 import { Link } from "react-router-dom";
+import { requestData } from "@/data/dummy";
 
 const metadata = {
   title: "User Requests",
   description: "User Requests",
 };
 
-const requests = [
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "pending", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: false,
-    status: "processing", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "accepted", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "rejected", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: false,
-    status: "queried", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "pending", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: false,
-    status: "processing", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "accepted", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "rejected", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: false,
-    status: "queried", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-];
 export default function UserRequests() {
   const [currentPage, setCurrentPage] = useState(1);
   return (
@@ -150,7 +39,7 @@ export default function UserRequests() {
         {/* End d-flex */}
 
         <RequestTable
-          data={requests}
+          data={requestData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />

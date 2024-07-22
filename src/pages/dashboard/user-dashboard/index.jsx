@@ -3,6 +3,7 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 import RequestTable from "@/components/tables/request-table";
 import { Link } from "react-router-dom";
+import { requestData } from "@/data/dummy";
 
 const metadata = {
   title: "User Dashboard",
@@ -28,64 +29,6 @@ const data = [
     amount: "22,786",
     description: "Total unread messages",
     icon: "/img/dashboard/icons/4.svg",
-  },
-];
-
-const requests = [
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "pending", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: false,
-    status: "processing", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "accepted", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: true,
-    status: "rejected", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
-  },
-  {
-    country: "Canada",
-    state: "Toronto",
-    duration: "4 months",
-    move_in_date: "2nd Jan 2025",
-    occupation: "Software Developer",
-    no_of_occupants: "3",
-    paid: false,
-    status: "queried", //processing, accepted, rejected, queried
-    createdAt: "04/04/2022 08:16",
   },
 ];
 
@@ -143,7 +86,7 @@ export default function UserDashboard() {
             </div>
             {/* End d-flex */}
 
-            <RequestTable data={requests} />
+            <RequestTable data={requestData} />
           </div>
           {/* End py-30 */}
         </div>
