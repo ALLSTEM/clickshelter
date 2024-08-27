@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import {
   Listbox,
@@ -7,16 +7,22 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import { RiArrowDownDoubleLine } from "react-icons/ri";
+import { authRequests } from "@/utils/http";
+import { toast } from "react-toastify";
 
-const statusOptions = ["active", "inactive"];
+const statusOptions = ["deactivated", "pending", "active", "suspended"];
 
 const statusRender = (status, onChange) => {
   const statusClass = (status) => {
     switch (status) {
+      case "pending":
+        return "bg-light-2 text-grey";
       case "active":
         return "bg-green-1 text-green-2";
-      case "inactive":
+      case "deactivated":
         return "bg-red-3 text-danger";
+      case "suspended":
+        return "bg-yellow-4 text-yellow-3";
       default:
         return "bg-grey text-grey";
     }
@@ -25,13 +31,13 @@ const statusRender = (status, onChange) => {
   return (
     <Listbox value={status} onChange={onChange}>
       <ListboxButton
-        className={`tw-text-left rounded-100 py-4 tw-px-2 tw-relative col-12 text-14 fw-500 ${statusClass(
+        className={`tw-text-left rounded-100 tw-py-1 tw-px-2 tw-relative col-12 text-14 fw-500 tw-flex ${statusClass(
           status
         )}`}
       >
-        {status.toUpperCase()}
+        <p className="tw-mr-2">{status?.toUpperCase()}</p>
         <RiArrowDownDoubleLine
-          className="tw-group tw-pointer-events-none tw-absolute tw-top-1.5 tw-right-2.5 tw-size-4"
+          className="tw-group tw-pointer-events-none tw-top-1.5 tw-right-2.5 tw-size-4"
           aria-hidden="true"
         />
       </ListboxButton>
@@ -52,11 +58,37 @@ const statusRender = (status, onChange) => {
   );
 };
 
-const UsersTable = ({ data, currentPage, setCurrentPage }) => {
-  const handleStatusChange = (id, newStatus) => {
-    // Implement status update logic here
+const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
+  const [statuses, setStatuses] = useState(
+    data.reduce((acc, row) => ({ ...acc, [row.id]: row.status }), {})
+  );
+
+  const handleStatusChange = async (id, newStatus) => {
+    // Add logic to update status in backend or state management
+    try {
+      const response = await authRequests.put(
+        `/admin/users/${id}/${newStatus}`
+      );
+
+      console.log(id);
+
+      setStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [id]: newStatus,
+      }));
+
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
     console.log(`Update status for id ${id} to ${newStatus}`);
   };
+
+  useEffect(() => {
+    setStatuses(
+      data.reduce((acc, row) => ({ ...acc, [row.id]: row.status }), {})
+    );
+  }, [data]);
 
   return (
     <div>
@@ -71,7 +103,7 @@ const UsersTable = ({ data, currentPage, setCurrentPage }) => {
               <th>Status</th>
               <th>Email Verified At</th>
               <th>Occupation</th>
-              <th>Location</th>
+              <th>Country</th>
               <th>Created At</th>
             </tr>
           </thead>
@@ -83,21 +115,25 @@ const UsersTable = ({ data, currentPage, setCurrentPage }) => {
                 <td>{row.last_name}</td>
                 <td>{row.email}</td>
                 <td>
-                  {statusRender(row.status, (newStatus) =>
+                  {statusRender(statuses[row.id], (newStatus) =>
                     handleStatusChange(row.id, newStatus)
                   )}
                 </td>
                 <td>{row.email_verified_at}</td>
                 <td>{row.occupation}</td>
-                <td>{row.location}</td>
-                <td>{row.createdAt}</td>
+                <td>{row.country}</td>
+                <td>{row.created_at}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       {currentPage && setCurrentPage && (
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
       )}
     </div>
   );

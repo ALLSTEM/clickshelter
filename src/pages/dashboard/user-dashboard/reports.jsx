@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import ReportTable from "@/components/tables/report-table";
 import { reportData } from "@/data/dummy";
+import { useSelector } from "react-redux";
+import { authRequests } from "@/utils/http";
+import { toast } from "react-toastify";
 
 const metadata = {
   title: "User Reports",
@@ -12,7 +15,13 @@ const metadata = {
 
 export default function UserReports() {
   const [currentPage, setCurrentPage] = useState(1);
-  let [isOpen, setIsOpen] = useState(true);
+  const [totalPages, setTotalPages] = useState(0);
+  let [isOpen, setIsOpen] = useState(false);
+
+  const [property, setProperty] = useState("");
+  const [reportType, setReportType] = useState("");
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
 
   function open() {
     setIsOpen(true);
@@ -20,6 +29,59 @@ export default function UserReports() {
 
   function close() {
     setIsOpen(false);
+  }
+
+  const [reports, setReports] = useState([]);
+
+  const [spaces, setSpaces] = useState([]);
+
+  const data = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    async function getRequests() {
+      const response = await authRequests.get(
+        `/user/reports?user=${data.user.id}&page=${currentPage}`
+      );
+
+      console.log(response.data.reports.data);
+
+      setCurrentPage(response.data.reports.current_page);
+      setTotalPages(response.data.reports.last_page);
+      setReports(response.data.reports.data);
+      setSpaces(response.data.spaces);
+    }
+
+    getRequests();
+  }, [currentPage]);
+
+  async function addReport(e) {
+    e.preventDefault();
+
+    try {
+      const data = {
+        space_id: property,
+        type: reportType,
+        title: title,
+        details: details,
+      };
+
+      const resp = await authRequests.post(`/user/reports`, data);
+
+      toast.success(resp.message);
+
+      setProperty("");
+      setReportType("");
+      setTitle("");
+      setDetails("");
+
+      setIsOpen(false);
+
+      console.log(resp.data); // Log response data for debugging
+    } catch (error) {
+      console.error(error);
+
+      toast.error("An error occurred, check fields and try again");
+    }
   }
 
   return (
@@ -43,103 +105,108 @@ export default function UserReports() {
                 Add New Report
               </DialogTitle>
               <p className="tw-mt-2  tw-text-sm/6 ">
-                <form className="row y-gap-20">
-                  <form>
-                    <div class="tw-grid tw-gap-6 tw-mb-6 tw-md:grid-cols-2">
-                      <div>
-                        <label
-                          for="property"
-                          class="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900"
-                        >
-                          Select Property
-                        </label>
-                        <select
-                          id="property"
-                          class="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
-                          required
-                        >
-                          <option value="">Select a property</option>
-                          <option value="property_1">Property 1</option>
-                          <option value="property_2">Property 2</option>
-                          <option value="property_3">Property 3</option>
-                          <option value="property_4">Property 4</option>
-                          <option value="property_5">Property 5</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label
-                          for="type"
-                          class="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900"
-                        >
-                          Type Of Report
-                        </label>
-                        <select
-                          id="type"
-                          class="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
-                          placeholder="Title of report"
-                          required
-                        >
-                          <option value="">Select a report type</option>
-                          <option value="maintenance">Maintenance</option>
-                          <option value="payment">Payment</option>
-                          <option value="complaint">Complaint</option>
-                          <option value="inspection">Inspection</option>
-                          <option value="move_in">Move-In</option>
-                          <option value="move_out">Move-Out</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label
-                          for="first_name"
-                          class="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900 "
-                        >
-                          Title
-                        </label>
-                        <input
-                          type="text"
-                          id="first_name"
-                          class="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
-                          placeholder="Title of report"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label
-                          for="details"
-                          class="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900"
-                        >
-                          Details of Report
-                        </label>
-                        <textarea
-                          id="details"
-                          class="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
-                          rows="4"
-                          placeholder="Enter details of the report"
-                          required
-                        ></textarea>
-                      </div>
+                <form onSubmit={addReport} className="row y-gap-20">
+                  <div className="tw-grid tw-gap-6 tw-mb-6 tw-md:grid-cols-2">
+                    <div>
+                      <label
+                        htmlFor="property"
+                        className="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900"
+                      >
+                        Select Property
+                      </label>
+                      <select
+                        id="property"
+                        value={property}
+                        onChange={(e) => setProperty(e.target.value)}
+                        className="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
+                        required
+                      >
+                        <option value="">Select a property</option>
+                        {spaces.map((space) => (
+                          <option key={space.id} value={space.id}>
+                            {space.space_name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
-                    {/* <button
-                      type="submit"
-                      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      Submit
-                    </button> */}
-                  </form>
+                    <div>
+                      <label
+                        htmlFor="type"
+                        className="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900"
+                      >
+                        Type Of Report
+                      </label>
+                      <select
+                        id="type"
+                        value={reportType}
+                        onChange={(e) => setReportType(e.target.value)}
+                        className="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
+                        required
+                      >
+                        <option value="">Select a report type</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="payment">Payment</option>
+                        <option value="complaint">Complaint</option>
+                        <option value="inspection">Inspection</option>
+                        <option value="move_in">Move-In</option>
+                        <option value="move_out">Move-Out</option>
+                      </select>
+                    </div>
 
-                  {/* End .col */}
+                    <div>
+                      <label
+                        htmlFor="title"
+                        className="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900"
+                      >
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
+                        placeholder="Title of report"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="details"
+                        className="block tw-mb-2 tw-text-sm tw-font-medium text-gray-900"
+                      >
+                        Details of Report
+                      </label>
+                      <textarea
+                        id="details"
+                        value={details}
+                        onChange={(e) => setDetails(e.target.value)}
+                        className="border tw-text-sm tw-rounded-lg tw-focus:ring-blue-500 tw-focus:border-blue-500 tw-block tw-w-full tw-p-2.5"
+                        rows="4"
+                        placeholder="Enter details of the report"
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="tw-text-white tw-bg-blue-700 hover:tw-bg-blue-800 focus:ring-4 focus:tw-outline-none focus:tw-ring-blue-300 tw-font-medium tw-rounded-lg tw-text-sm tw-w-full tw-px-5 tw-py-2.5 tw-text-center"
+                  >
+                    Submit
+                  </button>
                 </form>
               </p>
-              <div className="tw-mt-4">
+              {/* <div className="tw-mt-4">
                 <Button
                   className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
-                  onClick={close}
+                  type="submit"
                 >
                   Add Report
                 </Button>
-              </div>
+              </div> */}
             </DialogPanel>
           </div>
         </div>
@@ -171,9 +238,10 @@ export default function UserReports() {
         {/* End d-flex */}
 
         <ReportTable
-          data={reportData}
+          data={reports}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalPage={totalPages}
         />
       </div>
     </>

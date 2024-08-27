@@ -1,10 +1,191 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
+import ReservationDetail from "../ReservationDetail";
+import axios from "axios";
+import { requests } from "@/utils/http";
+import { useParams, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
+
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    addressLine1: "",
+    addressLine2: "",
+    state: "",
+    zipCode: "",
+    specialRequests: "",
+  });
+  const [reservationDetails, setReservationDetails] = useState({
+    dates: [],
+    guestCounts: {
+      Adults: 1,
+      Children: 1,
+    },
+    propertyType: "",
+    location: "",
+    specificLocation: "",
+    durationOfStay: "",
+    moveInDate: null,
+    petPreference: "",
+    occupation: "",
+    budgetMin: "",
+    budgetMax: "",
+    additionalInfo: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  let [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get("space_id");
+
+  const [space, setSpace] = useState();
+
+  const closeModal = () => {
+    var closeButton = document.querySelector(
+      '#exampleModal [data-bs-dismiss="modal"]'
+    );
+    if (closeButton) {
+      closeButton.click();
+    }
+  };
+
+  useEffect(() => {
+    console.log(id);
+    const fetchSpace = async () => {
+      try {
+        setLoading(true);
+        const response = await requests.get(`/spaces/${id}`);
+
+        setSpace(response.data);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSpace();
+  }, [id]);
+
+  const formatDate = (timestamp) => {
+    console.log(timestamp);
+
+    const date = new Date(timestamp);
+    return date.toISOString().split("T")[0]; // Convert to YYYY-MM-DD format
+  };
+
+  const handleSubmitRequest = async () => {
+    const formData = {
+      space_id: id, // Assuming you have a space ID to submit
+      guest_adults: reservationDetails.guestCounts.Adults,
+      guest_children: reservationDetails.guestCounts.Children,
+      move_in_date: formatDate(reservationDetails.dates[0]), // Assuming dates[0] is the move-in date
+      move_out_date: formatDate(reservationDetails.dates[1]), // Assuming dates[1] is the move-out date
+      email: userInfo.email,
+      address_line_one: userInfo.addressLine1,
+      address_line_two: userInfo.addressLine2,
+      state: userInfo.state,
+      country: "United States", // Hardcoded for this example, replace as needed
+      zip_code: userInfo.zipCode,
+      first_name: userInfo.firstName,
+      last_name: userInfo.lastName,
+      property_type: reservationDetails.propertyType, // New field
+      location: reservationDetails.location, // New field
+      specific_location: reservationDetails.specificLocation, // New field
+      duration_of_stay: reservationDetails.durationOfStay, // New field
+      pet_preference: reservationDetails.petPreference, // New field
+      occupation: reservationDetails.occupation, // New field
+      budget_min: reservationDetails.budgetMin, // New field
+      budget_max: reservationDetails.budgetMax, // New field
+      additional_info: reservationDetails.additionalInfo, // New field
+      special_requests: userInfo.specialRequests, // New field
+    };
+
+    console.log(formData);
+
+    try {
+      const response = await requests.post(`/requests`, formData);
+
+      toast.success(response.message);
+
+      setReservationDetails({
+        dates: [],
+        guestCounts: {
+          Adults: 1,
+          Children: 1,
+        },
+        propertyType: "",
+        location: "",
+        specificLocation: "",
+        durationOfStay: "",
+        moveInDate: null,
+        petPreference: "",
+        occupation: "",
+        budgetMin: "",
+        budgetMax: "",
+        additionalInfo: "",
+      });
+
+      setUserInfo({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        addressLine1: "",
+        addressLine2: "",
+        state: "",
+        zipCode: "",
+        specialRequests: "",
+      });
+
+      setCurrentStep(0);
+
+      closeModal();
+
+      if (response?.data) {
+        navigate("/confirm-account", {
+          state: {
+            email: userInfo.email,
+            tokenID: response.data.token_id,
+          },
+        });
+      } else {
+        navigate("/");
+      }
+
+      console.log("Request submitted successfully:", response);
+    } catch (error) {
+      console.error("There was an error submitting the request:", error);
+
+      toast.error(error.response.data.message);
+
+      if (error.response.data.errors) {
+        const errorMessages = [];
+        for (const key in error.response.data.errors) {
+          if (error.response.data.errors.hasOwnProperty(key)) {
+            errorMessages.push(...error.response.data.errors[key]);
+          }
+        }
+        setErrors(errorMessages);
+      } else {
+        setErrors([error.response.data.message]);
+      }
+    }
+  };
+
   const steps = [
     {
       title: "Personal Details",
@@ -16,10 +197,16 @@ const Index = () => {
           </div>
         </>
       ),
-      content: <CustomerInfo />,
+      content: (
+        <CustomerInfo
+          space={space}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+        />
+      ),
     },
     {
-      title: "Payment Details",
+      title: "Reservation Information",
       stepNo: "2",
       stepBar: (
         <>
@@ -28,13 +215,24 @@ const Index = () => {
           </div>
         </>
       ),
-      content: <PaymentInfo />,
+      content: (
+        <ReservationDetail
+          reservationDetails={reservationDetails}
+          setReservationDetails={setReservationDetails}
+        />
+      ),
     },
     {
-      title: "Final Step",
+      title: "Confirm information",
       stepNo: "3",
       stepBar: "",
-      content: <OrderSubmittedInfo />,
+      content: (
+        <OrderSubmittedInfo
+          userInfo={userInfo}
+          reservationDetails={reservationDetails}
+          isLoggedIn={true}
+        />
+      ),
     },
   ];
 
@@ -57,69 +255,87 @@ const Index = () => {
 
   return (
     <>
-      <div className="row x-gap-40 y-gap-30 items-center">
-        {steps.map((step, index) => (
-          <React.Fragment key={index}>
-            <div className="col-auto">
-              <div
-                className="d-flex items-center cursor-pointer transition"
-                onClick={() => setCurrentStep(index)}
-              >
+      <div className="modal-body tw-w-full">
+        <div className="row x-gap-40 y-gap-30 items-center">
+          {steps.map((step, index) => (
+            <React.Fragment key={index}>
+              <div className="col-auto">
                 <div
-                  className={
-                    currentStep === index
-                      ? "active size-40 rounded-full flex-center bg-blue-1"
-                      : "size-40 rounded-full flex-center bg-blue-1-05 text-blue-1 fw-500"
-                  }
+                  className="d-flex items-center cursor-pointer transition"
+                  onClick={() => setCurrentStep(index)}
                 >
-                  {currentStep === index ? (
-                    <>
-                      <i className="icon-check text-16 text-white"></i>
-                    </>
-                  ) : (
-                    <>
-                      <span>{step.stepNo}</span>
-                    </>
-                  )}
+                  <div
+                    className={
+                      currentStep === index
+                        ? "active size-40 rounded-full flex-center bg-blue-1"
+                        : "size-40 rounded-full flex-center bg-blue-1-05 text-blue-1 fw-500"
+                    }
+                  >
+                    {currentStep === index ? (
+                      <>
+                        <i className="icon-check text-16 text-white"></i>
+                      </>
+                    ) : (
+                      <>
+                        <span>{step.stepNo}</span>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="text-18 fw-500 ml-10"> {step.title}</div>
                 </div>
-
-                <div className="text-18 fw-500 ml-10"> {step.title}</div>
               </div>
-            </div>
-            {/* End .col */}
+              {/* End .col */}
 
-            {step.stepBar}
-          </React.Fragment>
-        ))}
+              {step.stepBar}
+            </React.Fragment>
+          ))}
+        </div>
+        {/* End stepper header part */}
+        <div className="tw-mt-9">
+          {errors.length > 0 && (
+            <ul className="tw-text-red-700">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="row">{renderStep()}</div>
       </div>
-      {/* End stepper header part */}
 
-      <div className="row">{renderStep()}</div>
       {/* End main content */}
 
-      <div className="row x-gap-20 y-gap-20 pt-20">
-        <div className="col-auto">
-          <button
-            className="button h-60 px-24 -blue-1 bg-light-2"
-            disabled={currentStep === 0}
-            onClick={previousStep}
-          >
-            Previous
-          </button>
-        </div>
-        {/* End prvious btn */}
+      <div className="modal-footer">
+        <div className="row x-gap-20 y-gap-20 pt-20">
+          <div className="col-auto">
+            <button
+              className="button px-24 tw-py-3 -blue-1 bg-light-2"
+              disabled={currentStep === 0}
+              onClick={previousStep}
+            >
+              Previous
+            </button>
+          </div>
+          {/* End prvious btn */}
 
-        <div className="col-auto">
-          <button
-            className="button h-60 px-24 -dark-1 bg-blue-1 text-white"
-            disabled={currentStep === steps.length - 1}
-            onClick={nextStep}
-          >
-            Next <div className="icon-arrow-top-right ml-15" />
-          </button>
+          <div className="col-auto">
+            <button
+              className="button tw-py-3 px-24 -dark-1 bg-blue-1 text-white"
+              onClick={
+                currentStep === steps.length - 1
+                  ? handleSubmitRequest
+                  : nextStep
+              }
+            >
+              {currentStep === steps.length - 1 ? "Request" : "Next"}
+            </button>
+          </div>
+          {/* End next btn */}
         </div>
-        {/* End next btn */}
       </div>
+
       {/* End stepper button */}
     </>
   );

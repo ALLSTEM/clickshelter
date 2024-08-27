@@ -23,20 +23,13 @@ const data = [
     description: "Total report",
     icon: "/img/featureIcons/1/3.svg",
   },
-
-  {
-    title: "Message",
-    amount: "22,786",
-    description: "Total unread messages",
-    icon: "/img/dashboard/icons/4.svg",
-  },
 ];
 
 export default function UserDashboard() {
   return (
-    <>
+    <div className="tw-h-screen">
       <MetaComponent meta={metadata} />
-      <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
+      <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32 ">
         <div className="col-12">
           <h1 className="text-30 lh-14 fw-600">Dashboard</h1>
           <div className="text-15 text-light-1">
@@ -46,11 +39,11 @@ export default function UserDashboard() {
         {/* End .col-12 */}
       </div>
 
-      <div className="row y-gap-30 pt-20 chart_responsive">
+      <div className="row y-gap-30 pt-20 chart_responsive ">
         <div className="col-xl-7 col-md-6">
           <div className="row y-gap-30">
             {data.map((item, index) => (
-              <div key={index} className="col-xl-4 col-md-6">
+              <div key={index} className="col-xl-6 col-md-6">
                 <div className="py-30 px-30 rounded-4 bg-white shadow-3">
                   <div className="row y-gap-20 justify-between items-center">
                     <div className="col-auto">
@@ -71,7 +64,7 @@ export default function UserDashboard() {
             ))}
           </div>
         </div>
-        <div className="col-xl-5 col-md-6">
+        {/* <div className="col-xl-5 col-md-6">
           <div className="py-30 px-30 rounded-4 bg-white shadow-3">
             <div className="d-flex justify-between items-center">
               <h2 className="text-18 lh-1 fw-500">Recent Requests</h2>
@@ -84,13 +77,13 @@ export default function UserDashboard() {
                 </Link>
               </div>
             </div>
-            {/* End d-flex */}
+            
 
             <RequestTable data={requestData} />
           </div>
-          {/* End py-30 */}
-        </div>
+          
+        </div> */}
       </div>
-    </>
+    </div>
   );
 }

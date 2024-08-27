@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import { hotelsData } from "@/components/data/hotels";
+import { authRequests } from "@/utils/http";
+import { useNavigate } from "react-router-dom";
 
 const metadata = {
   title: "User Wishlist",
@@ -9,6 +11,20 @@ const metadata = {
 };
 
 export default function UserWishlist() {
+  const [wishList, setWishList] = useState([]);
+  const nav = useNavigate();
+
+  useEffect(() => {
+    async function getWishList() {
+      const response = await authRequests.get(`/user/wishlists`);
+
+      setWishList(response.data);
+
+      console.log(response.data);
+    }
+    getWishList();
+  }, []);
+
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -20,7 +36,7 @@ export default function UserWishlist() {
           </div>
         </div>
         <div className="tw-bg-white tw-p-10">
-          {hotelsData.slice(0, 5).map((item) => (
+          {wishList.map((item) => (
             <div className="col-12" key={item.id}>
               <div className="row x-gap-20 y-gap-30">
                 <div className="col-md-auto">
@@ -28,7 +44,7 @@ export default function UserWishlist() {
                     <div className="cardImage__content">
                       <img
                         className="rounded-4 col-12 js-lazy"
-                        src={item.img}
+                        src={item.space.image}
                         alt="image"
                       />
                     </div>
@@ -46,15 +62,7 @@ export default function UserWishlist() {
 
                   <div className="row x-gap-10 y-gap-10 items-center pt-20">
                     <div className="col-auto">
-                      <p className="text-14">
-                        Westminster Borough, London
-                        <button
-                          data-x-click="mapFilter"
-                          className="text-blue-1 underline ml-10"
-                        >
-                          Show on map
-                        </button>
-                      </p>
+                      <p className="text-14">{item.space.space_name}</p>
                     </div>
                     <div className="col-auto">
                       <div className="size-3 rounded-full bg-light-1" />
@@ -63,26 +71,21 @@ export default function UserWishlist() {
                   {/* End .row */}
 
                   <div className="row x-gap-10 y-gap-10 pt-20">
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        Breakfast
+                    {item.space.services.slice(0, 3).map((item) => (
+                      <div className="col-auto">
+                        <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                          {item}
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        WiFi
+                    ))}
+
+                    {item.space.services.length > 3 && (
+                      <div className="col-auto">
+                        <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                          ...more
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        Spa
-                      </div>
-                    </div>
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        Bar
-                      </div>
-                    </div>
+                    )}
                   </div>
                   {/* End .row */}
                 </div>
@@ -92,10 +95,10 @@ export default function UserWishlist() {
                   <div className="d-flex flex-column justify-between h-full">
                     <div className="row x-gap-10 y-gap-10 justify-end items-center md:justify-start">
                       <div className="col-auto">
-                        <div className="text-14 lh-14 fw-500">View on Map</div>
-                      </div>
-                      <div className="col-auto">
-                        <div className="tw-px-10 flex-center text-white fw-600 text-14 size-40 rounded-4 bg-blue-1">
+                        <div
+                          onClick={() => nav(`/listing/${item.space.id}`)}
+                          className="tw-px-10 flex-center text-white fw-600 text-14 size-40 rounded-4 bg-blue-1"
+                        >
                           View
                         </div>
                       </div>

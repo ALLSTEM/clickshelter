@@ -2,15 +2,15 @@ const ContactInfo = () => {
   const contactContent = [
     {
       id: 1,
-      title: "Toll Free Customer Care",
-      action: "tel:+(1) 123 456 7890",
-      text: "+(1) 123 456 7890",
+      title: "available On WhatsApp",
+      action: "tel:+447392539244",
+      text: "+447392539244",
     },
     {
       id: 2,
       title: "Need live support?",
-      action: "mailto:xyz@abc.com",
-      text: "hi@accommodate.com",
+      action: "mailto:hello@clickshelter.com",
+      text: "hello@clickshelter.com",
     },
   ];
   return (

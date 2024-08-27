@@ -39,11 +39,7 @@ import UserSettings from "./pages/dashboard/user-dashboard/settings";
 import UserRequests from "./pages/dashboard/user-dashboard/requests";
 import UserWishlist from "./pages/dashboard/user-dashboard/wishlist";
 import HostPayout from "./pages/dashboard/host-dashboard/payouts";
-import HostRequests from "./pages/dashboard/host-dashboard/requests";
-import HostReports from "./pages/dashboard/host-dashboard/reports";
-import HostMessages from "./pages/dashboard/host-dashboard/messages";
 import HostTenants from "./pages/dashboard/host-dashboard/tenants";
-import HostSettings from "./pages/dashboard/host-dashboard/settings";
 import HostDashboard from "./pages/dashboard/host-dashboard";
 import AdminRequests from "./pages/dashboard/admin-dashboard/requests";
 import AdminPayouts from "./pages/dashboard/admin-dashboard/payout";
@@ -58,6 +54,11 @@ import AdminDashboard from "./pages/dashboard/admin-dashboard";
 import HostSpaces from "./pages/dashboard/host-dashboard/spaces";
 import HostAddHouse from "./pages/dashboard/host-dashboard/add";
 import SingleSpace from "./pages/dashboard/admin-dashboard/single-space";
+import BookingPage from "./pages/booking-page";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ConfirmAccount from "./pages/others/confirm-account";
+import SingleRequest from "./pages/dashboard/admin-dashboard/singleRequest";
 
 function App() {
   useEffect(() => {
@@ -79,29 +80,29 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="help-center" element={<HelpCenter />} />
               <Route path="signup" element={<SignUp />} />
+              <Route path="confirm-account" element={<ConfirmAccount />} />
               <Route path="login" element={<LogIn />} />
               <Route path="terms" element={<Terms />} />
               <Route path="contact" element={<Contact />} />
+              <Route path="booking" element={<BookingPage />} />
             </Route>
             <Route path="/dashboard" element={<DashLayout />}>
               <Route path="spaces/:id" element={<SingleSpace />} />
+              <Route path="requests/:id" element={<SingleRequest />} />
+              <Route path="spaces/add" element={<HostAddHouse />} />
               <Route path="user">
                 <Route path="requests" element={<UserRequests />} />
                 <Route path="reports" element={<UserReports />} />
                 <Route path="messages" element={<UserMessages />} />
                 <Route path="wishlist" element={<UserWishlist />} />
                 <Route path="settings" element={<UserSettings />} />
+                <Route path="payouts" element={<HostPayout />} />
+                <Route path="tenants" element={<HostTenants />} />
+                <Route path="spaces" element={<HostSpaces />} />
+
                 <Route index element={<UserDashboard />} />
               </Route>
               <Route path="host">
-                <Route path="requests" element={<HostRequests />} />
-                <Route path="payouts" element={<HostPayout />} />
-                <Route path="reports" element={<HostReports />} />
-                <Route path="messages" element={<HostMessages />} />
-                <Route path="tenants" element={<HostTenants />} />
-                <Route path="settings" element={<HostSettings />} />
-                <Route path="spaces" element={<HostSpaces />} />
-                <Route path="spaces/add" element={<HostAddHouse />} />
                 <Route index element={<HostDashboard />} />
               </Route>
               <Route path="admin">
@@ -124,6 +125,7 @@ function App() {
 
         <SrollTop />
       </Provider>
+      <ToastContainer />
     </main>
   );
 }

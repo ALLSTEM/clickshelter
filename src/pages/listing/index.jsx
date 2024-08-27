@@ -1,12 +1,13 @@
 import CallToActions from "@/components/common/CallToActions";
-// import Header11 from "@/components/header/header-11";
 import DefaultFooter from "@/components/footer/default";
 
 import MetaComponent from "@/components/common/MetaComponent";
-import DropdownSelelctBar from "@/components/house-list/common/DropdownSelelctBar";
+import DropdownSelectBar from "@/components/house-list/common/DropdownSelelctBar";
 import HouseProperties from "@/components/house-list/HouseProperties";
 import MainFilterSearchBox from "@/components/house-list/MainFilterSearchBox";
 import Pagination from "@/components/house-list/common/Pagination";
+import { useEffect, useState } from "react";
+import { requests } from "@/utils/http";
 
 const metadata = {
   title: "Space list",
@@ -14,16 +15,72 @@ const metadata = {
 };
 
 const HouseListPage = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [paginationData, setPaginationData] = useState();
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+
+  // filter
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedFacilities, setSelectedFacilities] = useState([]);
+  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState([]);
+  const [selectedSpaceServices, setSelectedSpaceServices] = useState([]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [
+    searchValue,
+    selectedCountries,
+    selectedFacilities,
+    selectedPropertyTypes,
+    selectedSpaceServices,
+  ]);
+
+  useEffect(() => {
+    const fetchSpaces = async () => {
+      try {
+        const params = new URLSearchParams({
+          country: selectedCountries.join(","),
+          facilities: selectedFacilities.join(","),
+          property_types: selectedPropertyTypes.join(","),
+          space_services: selectedSpaceServices.join(","),
+          address: searchValue,
+          page: page.toString(),
+        }).toString();
+
+        const response = await requests.get(`/spaces?${params}`);
+
+        const { data, ...paginationDetails } = response.data;
+
+        console.log(paginationDetails);
+
+        setFilteredItems(data);
+        setPaginationData(paginationDetails);
+        setPage(paginationDetails.current_page);
+      } catch (err) {
+        setError("Failed to fetch data");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSpaces();
+  }, [
+    searchValue,
+    page,
+    selectedCountries,
+    selectedFacilities,
+    selectedPropertyTypes,
+    selectedSpaceServices,
+  ]);
+
   return (
     <>
       <MetaComponent meta={metadata} />
-      {/* End Page Title */}
-
-      {/* <div className="header-margin"></div> */}
-      {/* header top margin */}
-
-      {/* <Header11 /> */}
-      {/* End Header 1 */}
 
       <section className="section-bg pt-40 pb-40 relative z-5">
         <div className="section-bg__item col-12">
@@ -40,11 +97,16 @@ const HouseListPage = () => {
             <div className="col-12">
               <div className="text-center">
                 <h1 className="text-30 pt-40 fw-600 text-white">
-                  Find Your Dream Luxury Hotel
+                  Find Your Dream House
                 </h1>
               </div>
               {/* End text-center */}
-              <MainFilterSearchBox />
+              <MainFilterSearchBox
+                searchValue={searchValue}
+                selectedItem={selectedItem}
+                setSearchValue={setSearchValue}
+                setSelectedItem={setSelectedItem}
+              />
             </div>
             {/* End col-12 */}
           </div>
@@ -64,7 +126,16 @@ const HouseListPage = () => {
 
                 <div className="col-auto">
                   <div className="row x-gap-15 y-gap-15">
-                    <DropdownSelelctBar />
+                    <DropdownSelectBar
+                      selectedCountries={selectedCountries}
+                      setSelectedCountries={setSelectedCountries}
+                      selectedFacilities={selectedFacilities}
+                      setSelectedFacilities={setSelectedFacilities}
+                      selectedPropertyTypes={selectedPropertyTypes}
+                      setSelectedPropertyTypes={setSelectedPropertyTypes}
+                      selectedSpaceServices={selectedSpaceServices}
+                      setSelectedSpaceServices={setSelectedSpaceServices}
+                    />
                   </div>
                 </div>
                 {/* End .col-auto */}
@@ -75,8 +146,8 @@ const HouseListPage = () => {
 
             <div className="col-auto">
               <button className="button -blue-1 h-40 px-20 rounded-100 bg-blue-1-05 text-15 text-blue-1">
-                <i className="icon-up-down text-14 mr-10"></i>
-                Top picks for your search
+                {/* <i className="icon-up-down text-14 mr-10"></i> */}
+                View Your Requests
               </button>
             </div>
             {/* End col-auto */}
@@ -85,10 +156,16 @@ const HouseListPage = () => {
             {/* End border-top */}
 
             <div className="row y-gap-30">
-              <HouseProperties />
+              <HouseProperties properties={filteredItems} />
             </div>
             {/* End .row */}
-            <Pagination />
+            {paginationData && (
+              <Pagination
+                page={page}
+                setPage={setPage}
+                paginationData={paginationData}
+              />
+            )}
           </div>
           {/* End .row */}
         </div>

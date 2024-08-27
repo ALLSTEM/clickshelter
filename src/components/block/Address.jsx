@@ -4,17 +4,15 @@ const Address = () => {
       id: 1,
       colClass: "col-lg-3",
       title: "Address",
-      content: (
-        <>328 Queensberry Street, North Melbourne VIC 3051, Australia.</>
-      ),
+      content: <>359 Bolton Road, Radcliffe, Manchester, England</>,
     },
     {
       id: 2,
       colClass: "col-auto",
-      title: "Toll Free Customer Care",
+      title: "Available on WhatsApp",
       content: (
         <>
-          <a href="tel:+4733378901">+47 333 78 901</a>
+          <a href="tel:+447392539244 ">+447392539244 </a>
         </>
       ),
     },
@@ -25,7 +23,7 @@ const Address = () => {
       content: (
         <>
           {" "}
-          <a href="mailto:i@gotrip.com">hi@accommodate.com</a>
+          <a href="mailto:hello@clickshelter.com">hello@clickshelter.com</a>
         </>
       ),
     },

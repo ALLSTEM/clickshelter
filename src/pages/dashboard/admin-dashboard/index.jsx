@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import { Link } from "react-router-dom";
 import RequestTable from "@/components/tables/request-table";
 import PayoutTable from "@/components/tables/payout-table";
 import { payoutData, requestData } from "@/data/dummy";
+import { authRequests } from "@/utils/http";
 
 const metadata = {
   title: "Admin Dashboard",
@@ -40,6 +41,25 @@ const data = [
 ];
 
 export default function AdminDashboard() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [loading, setLoading] = useState(false);
+  const [requests, setRequests] = useState([]);
+
+  useEffect(() => {
+    async function getRequests() {
+      const response = await authRequests.get(
+        `/admin/requests?page=${currentPage}`
+      );
+
+      setCurrentPage(response.data.current_page);
+      setTotalPages(response.data.last_page);
+      setRequests(response.data.data);
+    }
+
+    getRequests();
+  }, [currentPage]);
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -97,26 +117,13 @@ export default function AdminDashboard() {
             </div>
             {/* End d-flex */}
 
-            <RequestTable isAdmin data={requestData} />
-          </div>
-          {/* End py-30 */}
-        </div>
-        <div className="col-xl-5 col-md-6">
-          <div className="py-30 px-30 rounded-4 bg-white shadow-3">
-            <div className="d-flex justify-between items-center">
-              <h2 className="text-18 lh-1 fw-500">Recent Payout</h2>
-              <div>
-                <Link
-                  to="payouts"
-                  className="text-14 text-blue-1 fw-500 underline"
-                >
-                  View All
-                </Link>
-              </div>
-            </div>
-            {/* End d-flex */}
-
-            <PayoutTable isAdmin={true} data={payoutData} />
+            <RequestTable
+              isAdmin
+              data={requests}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPage={totalPages}
+            />
           </div>
           {/* End py-30 */}
         </div>

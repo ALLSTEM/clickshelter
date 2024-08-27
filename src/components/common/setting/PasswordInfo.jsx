@@ -1,34 +1,90 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 const PasswordInfo = () => {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const userId = useSelector((state) => state.auth.user.id);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (newPassword !== confirmPassword) {
+      toast.error("New passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("/user/profile/update-password", {
+        current_password: currentPassword,
+        new_password: newPassword,
+      });
+
+      toast.success(response.message);
+    } catch (err) {
+      setError("An error occurred while updating the password.");
+    }
+  };
+
   return (
-    <form className="col-xl-9">
+    <form className="col-xl-9" onSubmit={handleSubmit}>
       <div className="row x-gap-20 y-gap-20">
         <div className="col-12">
-          <div className="form-input ">
-            <input type="text" required />
+          <div className="form-input">
+            <input
+              type="password"
+              required
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />
             <label className="lh-1 text-16 text-light-1">
               Current Password
             </label>
           </div>
         </div>
-        {/* End col-12 */}
 
         <div className="col-12">
-          <div className="form-input ">
-            <input type="text" required />
+          <div className="form-input">
+            <input
+              type="password"
+              required
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
             <label className="lh-1 text-16 text-light-1">New Password</label>
           </div>
         </div>
-        {/* End col-12 */}
 
         <div className="col-12">
-          <div className="form-input ">
-            <input type="text" required />
+          <div className="form-input">
+            <input
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
             <label className="lh-1 text-16 text-light-1">
               New Password Again
             </label>
           </div>
         </div>
-        {/* End col-12 */}
+
+        {error && (
+          <div className="col-12">
+            <p className="text-red-500">{error}</p>
+          </div>
+        )}
+        {success && (
+          <div className="col-12">
+            <p className="text-green-500">{success}</p>
+          </div>
+        )}
 
         <div className="col-12">
           <div className="row x-gap-10 y-gap-10">
@@ -41,13 +97,22 @@ const PasswordInfo = () => {
               </button>
             </div>
             <div className="col-auto">
-              <button className="button h-50 px-24 -blue-1 bg-blue-1-05 text-blue-1">
+              <button
+                type="button"
+                className="button h-50 px-24 -blue-1 bg-blue-1-05 text-blue-1"
+                onClick={() => {
+                  setCurrentPassword("");
+                  setNewPassword("");
+                  setConfirmPassword("");
+                  setError("");
+                  setSuccess("");
+                }}
+              >
                 Cancel
               </button>
             </div>
           </div>
         </div>
-        {/* End col-12 */}
       </div>
     </form>
   );

@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MainMenu from "../MainMenu";
 import MobileMenu from "../MobileMenu";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [navbar, setNavbar] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
 
   const changeBackground = () => {
     if (window.scrollY >= 10) {
@@ -51,29 +54,52 @@ const Header = () => {
                 {/* End language and currency selector */}
 
                 {/* Start btn-group */}
+
                 <div className="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
-                  <Link
-                    to="/login"
-                    className="button px-30 fw-400 text-14 -white bg-white h-50 text-dark-1"
-                  >
-                    Become A Host
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
-                  >
-                    Sign In / Register
-                  </Link>
+                  {user && user.type !== "host" && (
+                    <Link
+                      to="/signup?type=host"
+                      className="button px-30 fw-400 text-14 -white bg-white h-50 text-dark-1"
+                    >
+                      Become A Host
+                    </Link>
+                  )}
+
+                  {!user && (
+                    <Link
+                      to="/signup"
+                      className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
+                    >
+                      Sign In / Register
+                    </Link>
+                  )}
                 </div>
+
                 {/* End btn-group */}
 
                 {/* Start mobile menu icon */}
                 <div className="d-none xl:d-flex x-gap-20 items-center pl-30 text-white">
                   <div>
-                    <Link
-                      to="/login"
-                      className="d-flex items-center icon-user text-inherit text-22"
-                    />
+                    {user && (user.type == "host" || user.type == "user") && (
+                      <Link
+                        to="/dashboard/user"
+                        className="d-flex items-center icon-user text-inherit text-22"
+                      />
+                    )}
+
+                    {user && user == "admin" && (
+                      <Link
+                        to="/dashboard/admin"
+                        className="d-flex items-center icon-user text-inherit text-22"
+                      />
+                    )}
+
+                    {!user && (
+                      <Link
+                        to="/login"
+                        className="d-flex items-center icon-user text-inherit text-22"
+                      />
+                    )}
                   </div>
                   <div>
                     <button

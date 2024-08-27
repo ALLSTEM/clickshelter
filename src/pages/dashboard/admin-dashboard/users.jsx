@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import UsersTable from "@/components/tables/user-table";
 import { userData } from "@/data/dummy";
+import { authRequests } from "@/utils/http";
+import { toast } from "react-toastify";
 
 const metadata = {
   title: "Users",
@@ -11,6 +13,27 @@ const metadata = {
 
 export default function AdminUsers() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    async function getUsers() {
+      try {
+        const response = await authRequests.get(
+          `/admin/users?page=${currentPage}`
+        );
+
+        setUsers(response.data.data);
+        setTotalPages(response.data.last_page);
+
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Error fetching users");
+      }
+    }
+    getUsers();
+  }, [currentPage]);
+
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -30,9 +53,10 @@ export default function AdminUsers() {
         {/* End d-flex */}
 
         <UsersTable
-          data={userData}
+          data={users}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalPage={totalPages}
         />
       </div>
     </>

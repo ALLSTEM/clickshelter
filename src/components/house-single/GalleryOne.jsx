@@ -3,7 +3,7 @@ import { Gallery, Item } from "react-photoswipe-gallery";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 
-export default function GalleryOne({ hotel }) {
+export default function GalleryOne({ space }) {
   const [isOpen, setOpen] = useState(false);
   return (
     <>
@@ -20,7 +20,9 @@ export default function GalleryOne({ hotel }) {
             <div className="col-auto">
               <div className="row x-gap-20  items-center">
                 <div className="col-auto">
-                  <h1 className="text-30 sm:text-25 fw-600">{hotel?.title}</h1>
+                  <h1 className="text-30 sm:text-25 fw-600">
+                    {space?.space_name}
+                  </h1>
                 </div>
                 {/* End .col */}
               </div>
@@ -30,7 +32,7 @@ export default function GalleryOne({ hotel }) {
                 <div className="col-auto">
                   <div className="d-flex items-center text-15 text-light-1">
                     <i className="icon-location-2 text-16 mr-5" />
-                    {hotel?.location}
+                    {space?.address}
                   </div>
                 </div>
                 <div className="col-auto">
@@ -52,7 +54,7 @@ export default function GalleryOne({ hotel }) {
                   <div className="text-14">
                     From{" "}
                     <span className="text-22 text-dark-1 fw-500">
-                      US${hotel?.price}
+                      US${space?.space_price}
                     </span>
                   </div>
                 </div>
@@ -75,14 +77,14 @@ export default function GalleryOne({ hotel }) {
             <div className="galleryGrid -type-1 pt-30">
               <div className="galleryGrid__item relative d-flex">
                 <Item
-                  original={hotel?.img}
-                  thumbnail={hotel?.img}
+                  original={space?.image}
+                  thumbnail={space?.image}
                   width={660}
                   height={660}
                 >
                   {({ ref, open }) => (
                     <img
-                      src={hotel?.img}
+                      src={space?.image}
                       ref={ref}
                       onClick={open}
                       alt="image"
@@ -99,94 +101,27 @@ export default function GalleryOne({ hotel }) {
               </div>
               {/* End .galleryGrid__item */}
 
-              <div className="galleryGrid__item">
-                <Item
-                  original="/img/gallery/1/2.png"
-                  thumbnail="/img/gallery/1/2.png"
-                  width={450}
-                  height={375}
-                >
-                  {({ ref, open }) => (
-                    <img
-                      ref={ref}
-                      onClick={open}
-                      src="/img/gallery/1/2.png"
-                      alt="image"
-                      className="rounded-4"
-                      role="button"
-                    />
-                  )}
-                </Item>
-              </div>
-              {/* End .galleryGrid__item */}
-
-              <div className="galleryGrid__item relative d-flex">
-                <img
-                  src="/img/gallery/1/3.png"
-                  alt="image"
-                  className="rounded-4"
-                  role="button"
-                />
-                <div className="absolute h-full col-12 flex-center">
-                  <div
-                    className="button -blue-1 size-40 rounded-full flex-center bg-white text-dark-1 js-gallery"
-                    role="button"
-                    onClick={() => setOpen(true)}
-                  >
-                    <i className="icon-play text-16" />
-                  </div>
-                </div>
-              </div>
-              {/* End .galleryGrid__item */}
-
-              <div className="galleryGrid__item">
-                <Item
-                  original="/img/gallery/1/4.png"
-                  thumbnail="/img/gallery/1/4.png"
-                  width={450}
-                  height={375}
-                >
-                  {({ ref, open }) => (
-                    <img
-                      ref={ref}
-                      onClick={open}
-                      src="/img/gallery/1/4.png"
-                      alt="image"
-                      className="rounded-4"
-                      role="button"
-                    />
-                  )}
-                </Item>
-              </div>
-              {/* End .galleryGrid__item */}
-
-              <div className="galleryGrid__item relative d-flex">
-                <img
-                  src="/img/gallery/1/5.png"
-                  alt="image"
-                  className="rounded-4"
-                />
-                <div className="absolute px-10 py-10 col-12 h-full d-flex justify-end items-end">
+              {space?.images.slice(0, 4).map((image, index) => (
+                <div className="galleryGrid__item">
                   <Item
-                    original="/img/gallery/1/5.png"
-                    thumbnail="/img/gallery/1/5.png"
+                    original={image}
+                    thumbnail={image}
                     width={450}
                     height={375}
                   >
                     {({ ref, open }) => (
-                      <div
-                        className="button -blue-1 px-24 py-15 bg-white text-dark-1 js-gallery"
+                      <img
                         ref={ref}
                         onClick={open}
+                        src={image}
+                        alt="image"
+                        className="rounded-4"
                         role="button"
-                      >
-                        See All Photos
-                      </div>
+                      />
                     )}
                   </Item>
                 </div>
-              </div>
-              {/* End .galleryGrid__item */}
+              ))}
             </div>
           </Gallery>
         </div>

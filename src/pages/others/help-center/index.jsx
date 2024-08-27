@@ -19,31 +19,6 @@ const HelpCenter = () => {
       <div className="header-margin-blue"></div>
       {/* header top margin */}
 
-      <section className="layout-pt-md">
-        <div className="container">
-          <div className="row justify-center text-center">
-            <div className="col-xl-6 col-lg-8 col-md-10">
-              <div className="sectionTitle -md">
-                <h2 className="sectionTitle__title">
-                  Welcome to the Help Center
-                </h2>
-                <p className=" sectionTitle__text mt-5 sm:mt-0">
-                  Lorem ipsum is placeholder text commonly used in site.
-                </p>
-              </div>
-              {/* End .sectiontitle */}
-
-              <HelpSearchBlock />
-            </div>
-          </div>
-          {/* End .row */}
-
-          <div className="row y-gap-30 pt-60 lg:pt-40">
-            <HelpBlock />
-          </div>
-          {/* End .row */}
-        </div>
-      </section>
       {/* End search and search block section */}
 
       <section className="layout-pt-lg layout-pb-lg">

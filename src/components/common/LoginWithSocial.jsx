@@ -1,7 +1,7 @@
 const LoginWithSocial = () => {
   return (
     <>
-      <div className="col-md-6 col-12">
+      {/* <div className="col-md-6 col-12">
         <button className="button col-12 -outline-blue-1 text-blue-1 py-15 rounded-8 ">
           <i className="icon-apple text-15 mr-10" />
           Facebook
@@ -13,7 +13,7 @@ const LoginWithSocial = () => {
           <i className="icon-apple text-15 mr-10" />
           Google
         </button>
-      </div>
+      </div> */}
     </>
   );
 };

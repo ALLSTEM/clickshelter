@@ -12,7 +12,7 @@ const statusRender = (status) => {
         <div
           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-green-1 text-green-2`}
         >
-          {status.toUpperCase()}
+          {status?.toUpperCase()}
         </div>
       );
       break;
@@ -21,7 +21,7 @@ const statusRender = (status) => {
         <div
           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-red-3 text-danger`}
         >
-          {status.toUpperCase()}
+          {status?.toUpperCase()}
         </div>
       );
       break;
@@ -31,7 +31,7 @@ const statusRender = (status) => {
         <div
           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-grey text-grey`}
         >
-          {status.toUpperCase()}
+          {status?.toUpperCase()}
         </div>
       );
 
@@ -41,17 +41,7 @@ const statusRender = (status) => {
   return el;
 };
 
-// {
-//     id: 4,
-//     first_name: "Lekan",
-//     last_name: "Kodunmi",
-//     email: "lekan@jdjd.com",
-//     phone: "07031737373",
-//     space: "Lake views apartments",
-//     status: "active",
-//   },
-
-const TenantTable = ({ data, currentPage, setCurrentPage }) => {
+const TenantTable = ({ data, currentPage, setCurrentPage, totalPage }) => {
   const navigate = useNavigate();
   return (
     <div>
@@ -74,12 +64,12 @@ const TenantTable = ({ data, currentPage, setCurrentPage }) => {
             {data.map((row, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{row.first_name}</td>
-                <td className="fw-500">{row.last_name}</td>
-                <td>{row.email}</td>
-                <td>{row.phone}</td>
-                <td>{row.occupation}</td>
-                <td>{row.space}</td>
+                <td>{row.user.first_name}</td>
+                <td className="fw-500">{row.user.last_name}</td>
+                <td>{row.user.email}</td>
+                <td>{row.user.phone ?? "no phone"}</td>
+                <td>{row.user.occupation ?? "not provided"}</td>
+                <td>{row.space.space_name}</td>
                 <td>{statusRender(row.status)}</td>
                 <td className="tw-flex tw-text-center tw-justify-center tw-align-middle !tw-pr-0">
                   <div
@@ -95,7 +85,7 @@ const TenantTable = ({ data, currentPage, setCurrentPage }) => {
                     title="Report Tenant"
                     className="tw-cursor-pointer"
                     onClick={() =>
-                      navigate(`/dashboard/host/reports?userId=${row.id}`)
+                      navigate(`/dashboard/user/reports?userId=${row.id}`)
                     }
                   >
                     <RiCustomerService2Fill size={20} />
@@ -108,7 +98,11 @@ const TenantTable = ({ data, currentPage, setCurrentPage }) => {
       </div>
 
       {currentPage && setCurrentPage && (
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPage={totalPage}
+        />
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import { useState } from "react";
 const FilterHotelsTabs2 = ({ filterOption, setFilterOption }) => {
   const filterOptions = [
     { label: "Canada", value: "canada" },
-    { label: "United Kingdom", value: "uk" },
+    { label: "United Kingdom", value: "united_kingdom" },
 
     // add more options as needed
   ];

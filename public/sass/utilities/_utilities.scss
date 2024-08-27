@@ -1,6 +1,6 @@
 @each $name, $color in $colors {
   .bg-#{"" + $name} {
-    background-color: var(--color-#{ "" + $name }) !important;
+    background-color: var(--color-#{"" + $name}) !important;
   }
 }
 
@@ -22,7 +22,7 @@
 
 @each $name, $color in $colors {
   .text-#{ "" + $name } {
-    color: var(--color-#{ "" + $name });
+    color: var(--color-#{"" + $name});
   }
 }
 
@@ -1141,8 +1141,8 @@ $_displays: none, inline-block, block, flex;
       top: unset;
       left: unset;
       transform: unset;
-      bottom:30px;
-      right:30px;
+      bottom: 30px;
+      right: 30px;
       // bottom: rem(30,1);
       // right: rem(30,1);
     }
@@ -1165,7 +1165,8 @@ $_displays: none, inline-block, block, flex;
   }
 
   textarea,
-  input {
+  input,
+  select {
     border: 1px solid var(--color-border);
     border-radius: 4px;
     padding: 0 15px;

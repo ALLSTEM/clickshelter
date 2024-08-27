@@ -1,123 +1,4 @@
-// import React from "react";
-// import Pagination from "./Pagination";
-
-// const statusRender = (status) => {
-//   let el;
-//   switch (status) {
-//     case "pending":
-//       el = (
-//         <div
-//           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-light-2 text-grey`}
-//         >
-//           {status.toUpperCase()}
-//         </div>
-//       );
-
-//       break;
-
-//     case "processing":
-//       el = (
-//         <div
-//           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-blue-2 text-blue-1`}
-//         >
-//           {status.toUpperCase()}
-//         </div>
-//       );
-//       break;
-//     case "resolved":
-//       el = (
-//         <div
-//           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-green-1 text-green-2`}
-//         >
-//           {status.toUpperCase()}
-//         </div>
-//       );
-//       break;
-//     case "rejected":
-//       el = (
-//         <div
-//           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-red-3 text-danger`}
-//         >
-//           {status.toUpperCase()}
-//         </div>
-//       );
-//       break;
-//     case "queried":
-//       el = (
-//         <div
-//           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-yellow-4 text-yellow-3`}
-//         >
-//           {status.toUpperCase()}
-//         </div>
-//       );
-//       break;
-
-//     default:
-//       el = (
-//         <div
-//           className={`rounded-100 py-4 text-center col-12 text-14 fw-500 bg-grey text-grey`}
-//         >
-//           {status.toUpperCase()}
-//         </div>
-//       );
-
-//       break;
-//   }
-
-//   return el;
-// };
-
-// function ReportTable({ data, currentPage, setCurrentPage }) {
-//   return (
-//     <div>
-//       <div>
-//         <div className="overflow-scroll scroll-bar-1 pt-30">
-//           <table className="table-2 col-12">
-//             <thead>
-//               <tr>
-//                 <th>#</th>
-//                 <th>Space ID</th>
-//                 <th>Type</th>
-//                 <th>Detail</th>
-//                 <th>Host</th>
-//                 <th>Occupant</th>
-//                 <th>Assigned to</th>
-//                 <th>Status</th>
-//                 <th>Created At</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {data.map((row, index) => (
-//                 <tr key={index}>
-//                   <td>{index + 1}</td>
-//                   <td>{row.space_id}</td>
-//                   <td className="fw-500">{row.type}</td>
-//                   <td>{row.details}</td>
-//                   <td>{row.host}</td>
-//                   <td>{row.occupant}</td>
-//                   <td>{row.assigned_to ? row.assigned_to : "Not Assigned"}</td>
-//                   <td>{statusRender(row.status)}</td>
-//                   <td>{row.createdAt}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-
-//         {currentPage && setCurrentPage && (
-//           <Pagination
-//             currentPage={currentPage}
-//             setCurrentPage={setCurrentPage}
-//           />
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default ReportTable;
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import {
   Listbox,
@@ -126,6 +7,8 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import { RiArrowDownDoubleLine } from "react-icons/ri";
+import { toast } from "react-toastify";
+import { authRequests } from "@/utils/http";
 
 const statusOptions = [
   "pending",
@@ -156,13 +39,13 @@ const statusRender = (status, isAdmin, onChange) => {
   return isAdmin ? (
     <Listbox value={status} onChange={onChange}>
       <ListboxButton
-        className={`tw-text-left rounded-100 py-4 tw-px-2 tw-relative col-12 text-14 fw-500 ${statusClass(
+        className={`tw-text-left tw-flex rounded-100 py-4 tw-px-2 tw-relative col-12 text-14 fw-500 ${statusClass(
           status
         )}`}
       >
-        {status.toUpperCase()}
+        <p className="tw-mr-2">{status?.toUpperCase()}</p>
         <RiArrowDownDoubleLine
-          className="tw-group tw-pointer-events-none tw-absolute tw-top-1.5 tw-right-2.5 tw-size-4"
+          className="tw-group tw-pointer-events-none  tw-top-1.5 tw-right-2.5 tw-size-4"
           aria-hidden="true"
         />
       </ListboxButton>
@@ -186,24 +69,42 @@ const statusRender = (status, isAdmin, onChange) => {
         status
       )}`}
     >
-      {status.toUpperCase()}
+      {status?.toUpperCase()}
     </div>
   );
 };
 
-const ReportTable = ({ data, currentPage, setCurrentPage, isAdmin }) => {
-  const [statuses, setStatuses] = useState(
-    data.reduce((acc, row) => ({ ...acc, [row.id]: row.status }), {})
-  );
+const ReportTable = ({
+  data,
+  currentPage,
+  setCurrentPage,
+  isAdmin,
+  totalPage = 10,
+}) => {
+  const [statuses, setStatuses] = useState();
 
-  const handleStatusChange = (id, newStatus) => {
-    setStatuses((prevStatuses) => ({
-      ...prevStatuses,
-      [id]: newStatus,
-    }));
-    // Add logic to update status in backend or state management
-    console.log(`Update status for id ${id} to ${newStatus}`);
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      const response = await authRequests.put(`/admin/reports/${id}`, {
+        status: newStatus,
+      });
+
+      setStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [id]: newStatus,
+      }));
+
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
+
+  useEffect(() => {
+    setStatuses(
+      data.reduce((acc, row) => ({ ...acc, [row.id]: row.status }), {})
+    );
+  }, [data]);
 
   return (
     <div>
@@ -228,16 +129,16 @@ const ReportTable = ({ data, currentPage, setCurrentPage, isAdmin }) => {
                 <td>{index + 1}</td>
                 <td>{row.space_id}</td>
                 <td className="fw-500">{row.type}</td>
-                <td>{row.details}</td>
+                <td>{row.description}</td>
                 <td>{row.host}</td>
-                <td>{row.occupant}</td>
+                <td>{row.user}</td>
                 <td>{row.assigned_to ? row.assigned_to : "Not Assigned"}</td>
                 <td>
                   {statusRender(statuses[row.id], isAdmin, (newStatus) =>
                     handleStatusChange(row.id, newStatus)
                   )}
                 </td>
-                <td>{row.createdAt}</td>
+                <td>{row.created_at}</td>
               </tr>
             ))}
           </tbody>
@@ -245,7 +146,11 @@ const ReportTable = ({ data, currentPage, setCurrentPage, isAdmin }) => {
       </div>
 
       {currentPage && setCurrentPage && (
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPage={totalPage}
+        />
       )}
     </div>
   );

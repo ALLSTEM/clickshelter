@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const StickyHeader = ({ hotel }) => {
+const StickyHeader = ({ space }) => {
   const [header, setHeader] = useState(false);
 
   const changeBackground = () => {
@@ -30,7 +30,7 @@ const StickyHeader = ({ hotel }) => {
                   <a href="#facilities">Facilities</a>
                 </div>
                 <div className="col-auto">
-                  <a href="#rules">Rules</a>
+                  <a href="#rules">Services</a>
                 </div>
               </div>
             </div>
@@ -42,13 +42,13 @@ const StickyHeader = ({ hotel }) => {
                   <div className="text-14">
                     From{" "}
                     <span className="text-22 text-dark-1 fw-500">
-                      US${hotel?.price}
+                      ${space?.space_price}
                     </span>
                   </div>
                 </div>
                 <div className="col-auto">
                   <Link
-                    to="/booking-page"
+                    to={`booking?space_id=${space?.id}`}
                     className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
                   >
                     Request Property{" "}

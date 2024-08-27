@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import PayoutTable from "@/components/tables/payout-table";
 import { payoutData } from "@/data/dummy";
+import { authRequests } from "@/utils/http";
+import { toast } from "react-toastify";
 
 const metadata = {
   title: "Host Payout",
@@ -11,6 +13,27 @@ const metadata = {
 
 export default function HostPayout() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [payouts, setPayouts] = useState([]);
+
+  useEffect(() => {
+    async function getPayouts() {
+      try {
+        const response = await authRequests.get(
+          `/host/payouts?page=${currentPage}`
+        );
+
+        setPayouts(response.data.data);
+        setTotalPages(response.data.last_page);
+
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Error fetching payouts");
+      }
+    }
+    getPayouts();
+  }, [currentPage]);
 
   return (
     <>
@@ -31,9 +54,10 @@ export default function HostPayout() {
         {/* End d-flex */}
 
         <PayoutTable
-          data={payoutData}
+          data={payouts}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalPage={totalPages}
         />
       </div>
     </>

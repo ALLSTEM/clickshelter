@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import PayoutTable from "@/components/tables/payout-table";
 import { payoutData } from "@/data/dummy";
+import { authRequests } from "@/utils/http";
 
 const metadata = {
   title: "Admin Payouts",
@@ -11,6 +12,27 @@ const metadata = {
 
 export default function AdminPayouts() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [payouts, setPayouts] = useState([]);
+
+  useEffect(() => {
+    async function getPayouts() {
+      try {
+        const response = await authRequests.get(
+          `/admin/payouts?page=${currentPage}`
+        );
+
+        setPayouts(response.data.data);
+        setTotalPages(response.data.last_page);
+
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Error fetching payouts");
+      }
+    }
+    getPayouts();
+  }, [currentPage]);
 
   return (
     <>
@@ -33,9 +55,10 @@ export default function AdminPayouts() {
 
         <PayoutTable
           isAdmin
-          data={payoutData}
+          data={payouts}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalPage={totalPages}
         />
       </div>
     </>

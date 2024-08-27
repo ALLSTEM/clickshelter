@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardPage from "../../../components/dashboard/host-dashboard/dashboard";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import { Link } from "react-router-dom";
 import RequestTable from "@/components/tables/request-table";
 import { requestData } from "@/data/dummy";
+import { authRequests } from "@/utils/http";
+import PayoutTable from "@/components/tables/payout-table";
 
 const metadata = {
   title: "Host Dashboard",
@@ -40,6 +42,28 @@ const data = [
 ];
 
 export default function HostDashboard() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [payouts, setPayouts] = useState([]);
+
+  useEffect(() => {
+    async function getPayouts() {
+      try {
+        const response = await authRequests.get(
+          `/host/payouts?page=${currentPage}`
+        );
+
+        setPayouts(response.data.data);
+        setTotalPages(response.data.last_page);
+
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Error fetching payouts");
+      }
+    }
+    getPayouts();
+  }, [currentPage]);
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -85,10 +109,10 @@ export default function HostDashboard() {
         <div className="col-xl-5 col-md-6">
           <div className="py-30 px-30 rounded-4 bg-white shadow-3">
             <div className="d-flex justify-between items-center">
-              <h2 className="text-18 lh-1 fw-500">Recent Requests</h2>
+              <h2 className="text-18 lh-1 fw-500">Recent Payouts</h2>
               <div>
                 <Link
-                  to="requests"
+                  to="payouts"
                   className="text-14 text-blue-1 fw-500 underline"
                 >
                   View All
@@ -97,7 +121,12 @@ export default function HostDashboard() {
             </div>
             {/* End d-flex */}
 
-            <RequestTable data={requestData} />
+            <PayoutTable
+              data={payouts}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPage={totalPages}
+            />
           </div>
           {/* End py-30 */}
         </div>

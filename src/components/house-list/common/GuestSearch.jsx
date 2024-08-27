@@ -2,7 +2,6 @@ import React, { useState } from "react";
 const counters = [
   { name: "Adults", defaultValue: 2 },
   { name: "Children", defaultValue: 1 },
-  { name: "Rooms", defaultValue: 1 },
 ];
 
 const Counter = ({ name, defaultValue, onCounterChange }) => {
@@ -60,27 +59,25 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
 
 const GuestSearch = () => {
   const [guestCounts, setGuestCounts] = useState({
-    Adults: 2,
+    Adults: 1,
     Children: 1,
-    Rooms: 1,
   });
   const handleCounterChange = (name, value) => {
     setGuestCounts((prevState) => ({ ...prevState, [name]: value }));
   };
   return (
-    <div className="searchMenu-guests px-20  lg:py-20 lg:px-0 js-form-dd bg-white position-relative">
+    <div className="searchMenu-guests lg:py-20 lg:px-0 js-form-dd bg-white position-relative">
       <div
         data-bs-toggle="dropdown"
         data-bs-auto-close="outside"
         aria-expanded="false"
         data-bs-offset="0,22"
+        className=" tw-p-4 tw-rounded-md tw-border"
       >
-        <h4 className="text-15 fw-500 ls-2 lh-16">Guest</h4>
         <div className="text-15 text-light-1 ls-2 lh-16">
           <span className="js-count-adult">{guestCounts.Adults}</span> adults -{" "}
           <span className="js-count-child">{guestCounts.Children}</span>{" "}
-          childeren - <span className="js-count-room">{guestCounts.Rooms}</span>{" "}
-          room
+          children
         </div>
       </div>
       {/* End guest */}

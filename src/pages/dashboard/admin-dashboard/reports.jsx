@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import ReportTable from "@/components/tables/report-table";
 import { reportData } from "@/data/dummy";
+import { authRequests } from "@/utils/http";
 
 const metadata = {
   title: "Reports",
@@ -10,7 +11,25 @@ const metadata = {
 };
 
 export default function AdminReports() {
+  const [reports, setReports] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    async function getRequests() {
+      const response = await authRequests.get(
+        `/admin/reports?page=${currentPage}`
+      );
+
+      console.log(response.data.reports.data);
+
+      setCurrentPage(response.data.reports.current_page);
+      setTotalPages(response.data.reports.last_page);
+      setReports(response.data.reports.data);
+    }
+
+    getRequests();
+  }, [currentPage]);
 
   return (
     <>
@@ -32,9 +51,10 @@ export default function AdminReports() {
 
         <ReportTable
           isAdmin
-          data={reportData}
+          data={reports}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalPage={totalPages}
         />
       </div>
     </>

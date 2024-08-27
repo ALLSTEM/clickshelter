@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import TenantTable from "@/components/tables/tenant-table";
+import { authRequests } from "@/utils/http";
 
 const metadata = {
   title: "Host Tenants",
@@ -63,6 +64,21 @@ const users = [
 
 export default function HostTenants() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [spaces, setSpaces] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    async function getTenants() {
+      try {
+        const response = await authRequests.get(`/host/spaces/tenants`);
+        setSpaces(response.data.data);
+        setTotalPages(response.data.last_page);
+      } catch (error) {
+        console.error("Error fetching spaces:", error);
+      }
+    }
+    getTenants();
+  }, []);
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -82,9 +98,10 @@ export default function HostTenants() {
         {/* End d-flex */}
 
         <TenantTable
-          data={users}
+          data={spaces}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalPage={totalPages}
         />
       </div>
     </>

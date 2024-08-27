@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import MainFilterSearchBox from "./MainFilterSearchBox";
 
 const index = () => {
+  const navigate = useNavigate();
   return (
     <section className="masthead -type-1 z-5">
       <div className="masthead__bg">
@@ -14,14 +16,14 @@ const index = () => {
                 className="text-60 lg:text-40 md:text-30 text-white"
                 data-aos="fade-up"
               >
-                Find Your Next Home
+                Looking for accommodation?
               </h1>
               <p
                 className="text-white mt-6 md:mt-10"
                 data-aos="fade-up"
                 data-aos-delay="100"
               >
-                Discover amazing housing deals
+                helping to resolve your housing needs
               </p>
             </div>
             {/* End hero title */}
@@ -31,7 +33,15 @@ const index = () => {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              <MainFilterSearchBox />
+              <button
+                className="mainSearch__submit button -dark-1 h-60 px-35 col-12 rounded-100 bg-blue-1 text-white"
+                // onClick={() => navigate(`/listing?query=${searchValue}`)}
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                Let’s get you started
+              </button>
+              {/* <MainFilterSearchBox /> */}
             </div>
             {/* End tab-filter */}
           </div>
