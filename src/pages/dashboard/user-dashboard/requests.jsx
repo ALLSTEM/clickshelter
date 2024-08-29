@@ -68,9 +68,7 @@ export default function UserRequests() {
         <div className="col-12 justify-between d-flex">
           <div>
             <h1 className="text-30 lh-14 fw-600">Requests</h1>
-            <div className="text-15 text-light-1">
-              Lorem ipsum dolor sit amet, consectetur.
-            </div>
+            <div className="text-15 text-light-1">Manage requests</div>
           </div>
           <button
             data-bs-toggle="modal"

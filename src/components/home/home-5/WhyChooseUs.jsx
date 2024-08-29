@@ -31,9 +31,7 @@ const WhyChooseUs = () => {
         <div className="row">
           <div className="col-xl-4 col-md-7">
             <h2 className="text-30 fw-600">Why be a Local Expert</h2>
-            <p className="mt-5">
-              These popular destinations have a lot to offer
-            </p>
+
             <div className="row y-gap-30 pt-60 md:pt-40">
               {expertContent.map((item) => (
                 <div className="col-12" key={item.id}>

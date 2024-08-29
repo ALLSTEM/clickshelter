@@ -41,9 +41,7 @@ export default function HostPayout() {
       <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
         <div className="col-12">
           <h1 className="text-30 lh-14 fw-600">Payout</h1>
-          <div className="text-15 text-light-1">
-            Lorem ipsum dolor sit amet, consectetur.
-          </div>
+          <div className="text-15 text-light-1">All your payouts</div>
         </div>
         {/* End .col-12 */}
       </div>

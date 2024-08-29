@@ -38,7 +38,7 @@ export default function AdminReports() {
         <div className="col-12">
           <h1 className="text-30 lh-14 fw-600">Reports</h1>
           <div className="text-15 text-light-1">
-            Lorem ipsum dolor sit amet, consectetur.
+            Manage Reports On ClickShelter
           </div>
         </div>
         {/* End .col-12 */}

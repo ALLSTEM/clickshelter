@@ -36,9 +36,7 @@ export default function HostSettings() {
       <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
         <div className="col-12">
           <h1 className="text-30 lh-14 fw-600">Settings</h1>
-          <div className="text-15 text-light-1">
-            Lorem ipsum dolor sit amet, consectetur.
-          </div>
+          <div className="text-15 text-light-1">Manage your account</div>
         </div>
         <div className="tw-bg-white tw-p-10">
           <Tabs

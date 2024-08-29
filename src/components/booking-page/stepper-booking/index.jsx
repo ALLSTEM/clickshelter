@@ -206,7 +206,7 @@ const Index = () => {
       ),
     },
     {
-      title: "Reservation Information",
+      title: "Request Information",
       stepNo: "2",
       stepBar: (
         <>

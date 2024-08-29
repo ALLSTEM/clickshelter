@@ -107,7 +107,7 @@ const OrderSubmittedInfo = ({ isLoggedIn, userInfo, reservationDetails }) => {
               </>
             )}
 
-            <h4 className="text-20 fw-500 mb-30 mt-40">Reservation Details</h4>
+            <h4 className="text-20 fw-500 mb-30 mt-40">Request Details</h4>
 
             <div className="row y-gap-10">
               <div className="col-12">

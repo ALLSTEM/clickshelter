@@ -14,7 +14,7 @@ const Copyright = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Click Shelter
+                ClickShelter
               </a>
               All rights reserved.
             </div>

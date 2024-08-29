@@ -8,11 +8,11 @@ export const headerRouteList = [
     link: "/listing",
   },
   {
-    name: "About",
+    name: "About Us",
     link: "/about",
   },
   {
-    name: "Help Center",
+    name: "FAQ",
     link: "/help-center",
   },
   {
@@ -20,7 +20,7 @@ export const headerRouteList = [
     link: "/terms",
   },
   {
-    name: "Contact",
+    name: "Contact Us",
     link: "/contact",
   },
 ];

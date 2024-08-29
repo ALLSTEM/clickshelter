@@ -104,7 +104,7 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
             className="tw-w-full tw-bg-gray-100 tw-border tw-rounded-lg tw-p-3"
             value={reservationDetails.durationOfStay || ""}
             onChange={handleChange}
-            placeholder="Enter duration of stay in days"
+            placeholder="Enter duration of stay in months"
           />
           <label className="lh-1 text-16 text-light-1">Duration Of Stay</label>
         </div>

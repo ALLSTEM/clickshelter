@@ -41,7 +41,7 @@ export default function AdminUsers() {
         <div className="col-12">
           <h1 className="text-30 lh-14 fw-600">Admin Users</h1>
           <div className="text-15 text-light-1">
-            Lorem ipsum dolor sit amet, consectetur.
+            Manage Admins On ClickShelter
           </div>
         </div>
         {/* End .col-12 */}

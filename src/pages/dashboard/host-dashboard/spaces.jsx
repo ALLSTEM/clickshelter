@@ -32,9 +32,7 @@ export default function HostSpaces() {
         <div className="col-12 justify-between d-flex">
           <div>
             <h1 className="text-30 lh-14 fw-600">Spaces</h1>
-            <div className="text-15 text-light-1">
-              Lorem ipsum dolor sit amet, consectetur.
-            </div>
+            <div className="text-15 text-light-1">See your houses</div>
           </div>
           <button
             className="button h-50 px-24 -dark-1 bg-blue-1 text-white"

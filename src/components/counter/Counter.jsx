@@ -1,29 +1,52 @@
+import { requests } from "@/utils/http";
+import { useEffect, useState } from "react";
+
 const Counter = () => {
+  const [counts, setCounts] = useState();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        setLoading(true);
+        const response = await requests.get(`/analytics/count`);
+
+        setCounts(response.data);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCount();
+  }, []);
   const blockContent = [
     {
       id: 1,
-      number: "4,958",
+      number: counts?.destinations_count,
       meta: "Destinations",
       hasUnit: "",
       delayAnim: "100",
     },
     {
       id: 2,
-      number: "2,869",
+      number: counts?.properties_count,
       meta: "Total Properties",
       hasUnit: "",
       delayAnim: "200",
     },
     {
       id: 3,
-      number: "2",
-      meta: "Happy customers",
-      hasUnit: "M",
+      number: counts?.customers_count,
+      meta: "Happy Landlords",
+      hasUnit: "",
       delayAnim: "300",
     },
     {
       id: 4,
-      number: "574,974",
+      number: counts?.volunteers_count,
       meta: "Our Volunteers",
       hasUnit: "",
       delayAnim: "400",
