@@ -23,7 +23,7 @@ const index = () => {
                 data-aos="fade-up"
                 data-aos-delay="100"
               >
-                helping to resolve your housing needs
+                We are happy to help you solve your housing need
               </p>
             </div>
             {/* End hero title */}
