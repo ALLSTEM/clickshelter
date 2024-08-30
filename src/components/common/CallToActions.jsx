@@ -9,11 +9,9 @@ const CallToActions = () => {
                 <div className="icon-newsletter text-60 sm:text-40 text-white" />
               </div>
               <div className="col-auto">
-                <h4 className="text-26 text-white fw-600">
-                  Get your next space
-                </h4>
+                <h4 className="text-26 text-white fw-600">ClickShelter</h4>
                 <div className="text-white">
-                  Sign up and we`&apos;ll send the best deals to you
+                  We are happy to help you solve your housing need
                 </div>
               </div>
             </div>

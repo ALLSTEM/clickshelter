@@ -209,7 +209,7 @@ const SingleRequest = () => {
         </div>
         <div className="col-12">
           <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Zip Code</div>
+            <div className="text-15 lh-16">Post Code</div>
             <div className="text-15 lh-16 fw-500 text-blue-1">
               {user.zip_code || "Info not available"}
             </div>

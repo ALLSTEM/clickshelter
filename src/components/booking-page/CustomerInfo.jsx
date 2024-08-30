@@ -169,9 +169,7 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
                 required
                 disabled={isFieldDisabled("zip_code")}
               />
-              <label className="lh-1 text-16 text-light-1">
-                ZIP code/Postal code
-              </label>
+              <label className="lh-1 text-16 text-light-1">Post code</label>
             </div>
           </div>
           {/* End col-12 */}

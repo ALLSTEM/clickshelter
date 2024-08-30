@@ -3,7 +3,7 @@ const Address = () => {
     {
       id: 1,
       colClass: "col-lg-3",
-      title: "Address",
+      title: "Registered Address",
       content: <>359 Bolton Road, Radcliffe, Manchester, England</>,
     },
     {

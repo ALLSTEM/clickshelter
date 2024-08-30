@@ -82,7 +82,7 @@ const OrderSubmittedInfo = ({ isLoggedIn, userInfo, reservationDetails }) => {
                   {/* End .col */}
                   <div className="col-12">
                     <div className="d-flex justify-between border-top-light pt-10">
-                      <div className="text-15 lh-16">ZIP code/Postal code</div>
+                      <div className="text-15 lh-16">Post code</div>
                       <div className="text-15 lh-16 fw-500 text-blue-1">
                         {userInfo.zipCode}
                       </div>

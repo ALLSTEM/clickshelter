@@ -61,7 +61,7 @@ const Header = () => {
                       to="/signup?type=host"
                       className="button px-30 fw-400 text-14 -white bg-white h-50 text-dark-1"
                     >
-                      Become A Host
+                      Become A Landlord
                     </Link>
                   )}
 

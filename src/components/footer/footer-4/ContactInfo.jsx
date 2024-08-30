@@ -2,9 +2,9 @@ const ContactInfo = () => {
   const contactContent = [
     {
       id: 1,
-      title: "Toll Free Customer Care",
-      action: "tel:+(1) 123 456 7890",
-      text: "+(1) 123 456 7890",
+      title: "Reach Us On WhatsApp",
+      action: "tel:+447392539244",
+      text: "+447392539244",
     },
     {
       id: 2,

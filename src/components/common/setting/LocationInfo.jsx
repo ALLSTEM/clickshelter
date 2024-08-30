@@ -114,7 +114,7 @@ const LocationInfo = () => {
               value={locationData.zip_code}
               onChange={handleInputChange}
             />
-            <label className="lh-1 text-16 text-light-1">ZIP Code</label>
+            <label className="lh-1 text-16 text-light-1">Post Code</label>
           </div>
         </div>
         {/* End col-6 */}
