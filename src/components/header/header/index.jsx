@@ -33,7 +33,7 @@ const Header = () => {
               <div className="d-flex items-center">
                 <Link to="/" className="header-logo mr-20">
                   <img src="/img/general/logo-2.png" alt="logo icon" />
-                  {/* <img src="/img/general/logo-dark.svg" alt="logo icon" /> */}
+                  {/* <img src="/img/general/logo-2.png" alt="logo icon" /> */}
                   {/* <h1 className="h5">AccommodateMe</h1> */}
                 </Link>
                 {/* End logo */}
