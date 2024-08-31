@@ -193,8 +193,8 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
             <div className="row y-gap-20 items-center justify-between">
               <div className="col-auto">
                 <div className="text-14 text-light-1">
-                  By proceeding with this booking, I agree to GoTrip Terms of
-                  Use and Privacy Policy.
+                  By proceeding with this booking, I agree to ClickShelter Terms
+                  of Use and Privacy Policy.
                 </div>
               </div>
               {/* End col-12 */}
