@@ -25,31 +25,32 @@ const Counter = () => {
   const blockContent = [
     {
       id: 1,
-      number: counts?.destinations_count,
-      meta: "Destinations",
+      number: 2,
+      // number: counts?.destinations_count,
+      meta: "Countries",
       hasUnit: "",
       delayAnim: "100",
     },
     {
       id: 2,
-      number: counts?.properties_count,
-      meta: "Total Properties",
+      number: 4,
+      meta: "Happy Tenants",
       hasUnit: "",
       delayAnim: "200",
     },
     {
       id: 3,
-      number: counts?.customers_count,
+      number: 4,
       meta: "Happy Landlords",
       hasUnit: "",
       delayAnim: "300",
     },
     {
       id: 4,
-      number: counts?.volunteers_count,
-      meta: "Our Volunteers",
-      hasUnit: "",
-      delayAnim: "400",
+      number: 98,
+      meta: "Satisfaction",
+      hasUnit: "%",
+      delayAnim: "300",
     },
   ];
   return (

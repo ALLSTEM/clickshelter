@@ -26,7 +26,7 @@ const About = () => {
 
       <section className="section-bg layout-pt-lg layout-pb-lg">
         <div className="section-bg__item col-12">
-          <img src="/img/pages/about/1.png" alt="image" />
+          <img src="/img/masthead/1/bg-2.jpg" alt="image" />
         </div>
         {/* End section-bg__item */}
 
@@ -34,10 +34,10 @@ const About = () => {
           <div className="row justify-center text-center">
             <div className="col-xl-6 col-lg-8 col-md-10">
               <h1 className="text-40 md:text-25 fw-600 text-white">
-                Looking for joy?
+                Clickshelter
               </h1>
               <div className="text-white mt-15">
-                Your trusted trip companion
+                Helping to resolve your housing needs
               </div>
             </div>
           </div>

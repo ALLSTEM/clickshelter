@@ -29,9 +29,6 @@ const HelpCenter = () => {
                 <h2 className="sectionTitle__title">
                   Frequently Asked Questions
                 </h2>
-                <p className=" sectionTitle__text mt-5 sm:mt-0">
-                  Interdum et malesuada fames
-                </p>
               </div>
             </div>
           </div>

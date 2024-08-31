@@ -57,9 +57,9 @@ const HouseListPage = () => {
 
         console.log(paginationDetails);
 
-        setFilteredItems(data);
-        setPaginationData(paginationDetails);
-        setPage(paginationDetails.current_page);
+        // setFilteredItems(data);
+        // setPaginationData(paginationDetails);
+        // setPage(paginationDetails.current_page);
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
@@ -85,7 +85,7 @@ const HouseListPage = () => {
       <section className="section-bg pt-40 pb-40 relative z-5">
         <div className="section-bg__item col-12">
           <img
-            src="/img/misc/bg-1.png"
+            src="/img/masthead/1/bg-2.jpg"
             alt="image"
             className="w-full h-full object-cover"
           />
