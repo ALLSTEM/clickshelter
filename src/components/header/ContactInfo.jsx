@@ -10,7 +10,7 @@ const ContactInfo = () => {
       id: 2,
       title: "Need live support?",
       action: "mailto:xyz@abc.com",
-      text: "hi@clickshelter.com",
+      text: "hello@clickshelter.com",
     },
   ];
   return (

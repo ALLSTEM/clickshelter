@@ -13,9 +13,9 @@ const footercontent = [
     id: 2,
     title: "Authentication",
     menuList: [
-      { name: "Register", routerPath: "/" },
-      { name: "Login", routerPath: "/" },
-      { name: "Forget Password", routerPath: "/" },
+      { name: "Register", routerPath: "/signup" },
+      { name: "Login", routerPath: "/login" },
+      // { name: "Forget Password", routerPath: "/" },
     ],
   },
 ];
