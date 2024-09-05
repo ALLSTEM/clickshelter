@@ -9,8 +9,8 @@ import LocationTopBar from "@/components/common/LocationTopBar";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Contact || Accommodate me",
-  description: "Contact || Accommodate me",
+  title: "Contact || ClickShelter",
+  description: "Contact || ClickShelter",
 };
 
 const Contact = () => {

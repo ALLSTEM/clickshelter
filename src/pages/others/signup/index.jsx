@@ -5,8 +5,8 @@ import SignUpForm from "@/components/common/SignUpForm";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Sign Up || Accommodate me",
-  description: "Sign Up || Accommodate me",
+  title: "Sign Up || ClickShelter",
+  description: "Sign Up || ClickShelter",
 };
 
 const SignUp = () => {

@@ -4,8 +4,8 @@ import TermsConent from "@/components/common/TermsConent";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Terms & Conditions || Accommodate me",
-  description: "Terms & Conditions || Accommodate me",
+  title: "Terms & Conditions || ClickShelter",
+  description: "Terms & Conditions || ClickShelter",
 };
 
 const Terms = () => {

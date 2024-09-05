@@ -4,8 +4,8 @@ import NotFound from "@/components/common/NotFound";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Accommodate me - 404",
-  description: "Accommodate me - 404",
+  title: "ClickShelter - 404",
+  description: "ClickShelter - 404",
 };
 
 const NotFoundPage = () => {

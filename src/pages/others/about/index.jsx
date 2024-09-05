@@ -11,8 +11,8 @@ import Brand from "@/components/brand/Brand";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "About accommodate me",
-  description: "About accommodate me",
+  title: "About ClickShelter",
+  description: "About ClickShelter",
 };
 
 const About = () => {

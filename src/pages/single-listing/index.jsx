@@ -44,7 +44,7 @@ const HouseSingleDynamic = () => {
 
   const metadata = {
     title: space?.space_name,
-    description: "Space Single || Accommodate me",
+    description: "Space Single || ClickShelter",
   };
 
   if (loading) {

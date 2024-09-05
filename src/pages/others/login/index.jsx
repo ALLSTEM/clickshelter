@@ -5,8 +5,8 @@ import LoginForm from "@/components/common/LoginForm";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Login || Accommodate me",
-  description: "login || Accommodate me",
+  title: "Login || ClickShelter",
+  description: "login || ClickShelter",
 };
 
 const LogIn = () => {

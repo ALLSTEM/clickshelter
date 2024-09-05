@@ -6,8 +6,8 @@ import HelpBlock from "@/components/block/HelpBlock";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Help Center || Accommodate me",
-  description: "Help Center || Accommodate me",
+  title: "Help Center || ClickShelter",
+  description: "Help Center || ClickShelter",
 };
 
 const HelpCenter = () => {

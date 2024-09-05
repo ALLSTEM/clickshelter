@@ -9,8 +9,8 @@ import ParallaxBanner from "@/components/banner/ParallaxBanner";
 import StepperBooking from "@/components/booking-page/stepper-booking";
 
 const metadata = {
-  title: "Accommodate Me home",
-  description: "Accommodate Me home",
+  title: "ClickShelter home",
+  description: "ClickShelter home",
 };
 
 const HomePage = () => {

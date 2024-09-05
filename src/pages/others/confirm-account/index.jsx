@@ -6,8 +6,8 @@ import { toast } from "react-toastify"; // Ensure you have react-toastify instal
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Confirm Account || Accommodate me",
-  description: "Confirm Account || Accommodate me",
+  title: "Confirm Account || ClickShelter",
+  description: "Confirm Account || ClickShelter",
 };
 
 const ConfirmAccount = () => {
