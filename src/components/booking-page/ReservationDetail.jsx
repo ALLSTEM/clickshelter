@@ -1,8 +1,19 @@
 import React from "react";
 import DatePicker from "react-multi-date-picker";
 import GuestSearch from "../house-list/common/GuestSearch";
+import { useEffect } from "react";
 
-const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
+const ReservationDetail = ({
+  reservationDetails,
+  setReservationDetails,
+  formRef,
+  nextStep,
+}) => {
+  useEffect(() => {
+    // This effect runs whenever the guestCounts value changes
+    console.log("guestCounts updated: ", reservationDetails.guestCounts);
+  }, [reservationDetails.guestCounts]);
+
   const handleDateChange = (dates) => {
     setReservationDetails((prevState) => ({
       ...prevState,
@@ -25,25 +36,22 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
     }));
   };
 
-  return (
-    <div className="tw-container tw-m-auto flex tw-flex-col tw-p-10">
-      <div className="tw-mb-4">
-        <div className="form-input tw-w-full">
-          <DatePicker
-            inputClass="custom_input-picker "
-            containerClassName="custom_container-picker !tw-w-full"
-            value={reservationDetails.dates}
-            onChange={handleDateChange}
-            numberOfMonths={2}
-            offsetY={10}
-            range
-            rangeHover
-            format="MM-DD-YYYY"
-          />
-          <label className="lh-1 text-16 text-light-1">Select Date</label>
-        </div>
-      </div>
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    nextStep();
+    // Add your form validation logic here
+
+    console.log("Form submitted", reservationDetails);
+    // If validation passes, you can call a function to move to the next step
+  };
+
+  return (
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      className="tw-container tw-m-auto flex tw-flex-col tw-p-10"
+    >
       <div className="tw-mb-4">
         <div className="form-input">
           <select
@@ -51,14 +59,18 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
             className="!tw-w-full "
             value={reservationDetails.propertyType || ""}
             onChange={handleChange}
+            required
           >
             <option value="" disabled>
               Select Type
             </option>
-            <option value="1br">1 Bedroom</option>
-            <option value="2br">2 Bedrooms</option>
-            <option value="3br">3 Bedrooms</option>
-            <option value="4br">4 Bedrooms</option>
+            <option value="share apartment - 1 room">
+              Shared apartment (1 room)
+            </option>
+            <option value="1 bedroom flat/house">1 bedroom flat/house</option>
+            <option value="2 bedroom flat/house">2 bedroom flat/house</option>
+            <option value="3 bedroom flat/house">3 bedroom flat/house</option>
+            <option value="4 bedroom flat/house">4 bedroom flat/house</option>
           </select>
           {/* <label className="lh-1 text-16 text-light-1">Select Type</label> */}
         </div>
@@ -71,6 +83,7 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
             className="tw-w-full"
             value={reservationDetails.location || ""}
             onChange={handleChange}
+            required
           >
             <option value="" disabled>
               Select Location
@@ -91,8 +104,22 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
             value={reservationDetails.specificLocation || ""}
             onChange={handleChange}
             placeholder="Enter specific location"
+            required
           />
           <label className="lh-1 text-16 text-light-1">Specify Location</label>
+        </div>
+      </div>
+
+      <div className="tw-mb-4">
+        <div className="form-input">
+          <input
+            type="text"
+            name="zipCode"
+            value={reservationDetails.zipCode}
+            onChange={handleChange}
+            required
+          />
+          <label className="lh-1 text-16 text-light-1">Post code</label>
         </div>
       </div>
 
@@ -105,6 +132,7 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
             value={reservationDetails.durationOfStay || ""}
             onChange={handleChange}
             placeholder="Enter duration of stay in months"
+            required
           />
           <label className="lh-1 text-16 text-light-1">Duration Of Stay</label>
         </div>
@@ -124,6 +152,7 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
             }
             offsetY={10}
             format="MMMM DD, YYYY"
+            required
           />
           <label className="lh-1 text-16 text-light-1">
             Expected Move-in Date
@@ -138,6 +167,7 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
             className="tw-w-full "
             value={reservationDetails.petPreference || ""}
             onChange={handleChange}
+            required
           >
             <option value="" disabled>
               Select Pet Preference
@@ -209,7 +239,10 @@ const ReservationDetail = ({ reservationDetails, setReservationDetails }) => {
           onGuestChange={handleGuestChange}
         />
       </div>
-    </div>
+      <button type="submit" style={{ display: "none" }}>
+        Submit
+      </button>
+    </form>
   );
 };
 

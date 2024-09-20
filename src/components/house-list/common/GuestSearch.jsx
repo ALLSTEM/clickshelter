@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 const counters = [
-  { name: "Adults", defaultValue: 2 },
-  { name: "Children", defaultValue: 1 },
+  { name: "Adults", defaultValue: 0 },
+  { name: "Children", defaultValue: 0 },
 ];
 
 const Counter = ({ name, defaultValue, onCounterChange }) => {
@@ -32,6 +33,7 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
             <button
               className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-down"
               onClick={decrementCount}
+              type="button"
             >
               <i className="icon-minus text-12" />
             </button>
@@ -43,6 +45,7 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
             <button
               className="button -outline-blue-1 text-blue-1 size-38 rounded-4 js-up"
               onClick={incrementCount}
+              type="button"
             >
               <i className="icon-plus text-12" />
             </button>
@@ -57,14 +60,19 @@ const Counter = ({ name, defaultValue, onCounterChange }) => {
   );
 };
 
-const GuestSearch = () => {
+const GuestSearch = ({ onGuestChange }) => {
   const [guestCounts, setGuestCounts] = useState({
-    Adults: 1,
-    Children: 1,
+    Adults: 0,
+    Children: 0,
   });
   const handleCounterChange = (name, value) => {
     setGuestCounts((prevState) => ({ ...prevState, [name]: value }));
   };
+
+  useEffect(() => {
+    onGuestChange(guestCounts);
+  }, [guestCounts]);
+
   return (
     <div className="searchMenu-guests lg:py-20 lg:px-0 js-form-dd bg-white position-relative">
       <div

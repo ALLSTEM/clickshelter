@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import CustomerInfo from "../CustomerInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderSubmittedInfo from "../OrderSubmittedInfo";
@@ -13,7 +13,9 @@ import { useSelector } from "react-redux";
 const Index = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [errors, setErrors] = useState([]);
+  const formRef = useRef(null);
   const navigate = useNavigate();
+  const modalBodyRef = useRef(null);
 
   const [userInfo, setUserInfo] = useState({
     firstName: "",
@@ -23,14 +25,12 @@ const Index = () => {
     addressLine1: "",
     addressLine2: "",
     state: "",
-    zipCode: "",
     specialRequests: "",
   });
   const [reservationDetails, setReservationDetails] = useState({
-    dates: [],
     guestCounts: {
-      Adults: 1,
-      Children: 1,
+      Adults: 0,
+      Children: 0,
     },
     propertyType: "",
     location: "",
@@ -42,6 +42,7 @@ const Index = () => {
     budgetMin: "",
     budgetMax: "",
     additionalInfo: "",
+    zipCode: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -87,19 +88,28 @@ const Index = () => {
     return date.toISOString().split("T")[0]; // Convert to YYYY-MM-DD format
   };
 
+  function formatDateToDDMMYY(timestamp) {
+    const date = new Date(timestamp);
+
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
+    const year = date.getFullYear().toString().slice(-2); // Get last 2 digits of the year
+
+    return `${day}-${month}-${year}`;
+  }
+
   const handleSubmitRequest = async () => {
     const formData = {
       space_id: id, // Assuming you have a space ID to submit
       guest_adults: reservationDetails.guestCounts.Adults,
       guest_children: reservationDetails.guestCounts.Children,
-      move_in_date: formatDate(reservationDetails.dates[0]), // Assuming dates[0] is the move-in date
-      move_out_date: formatDate(reservationDetails.dates[1]), // Assuming dates[1] is the move-out date
+      move_in_date: formatDateToDDMMYY(reservationDetails.moveInDate), // Assuming dates[0] is the move-in date
       email: userInfo.email,
       address_line_one: userInfo.addressLine1,
       address_line_two: userInfo.addressLine2,
       state: userInfo.state,
       country: "United States", // Hardcoded for this example, replace as needed
-      zip_code: userInfo.zipCode,
+      zip_code: reservationDetails.zipCode,
       first_name: userInfo.firstName,
       last_name: userInfo.lastName,
       property_type: reservationDetails.propertyType, // New field
@@ -170,7 +180,12 @@ const Index = () => {
     } catch (error) {
       console.error("There was an error submitting the request:", error);
 
-      toast.error(error.response.data.message);
+      modalBodyRef.current.scrollTo({
+        top: 100, // Adjust the scroll position as needed
+        behavior: "smooth", // Smooth scrolling effect
+      });
+
+      toast.error("There was an error submitting the request");
 
       if (error.response.data.errors) {
         const errorMessages = [];
@@ -183,6 +198,29 @@ const Index = () => {
       } else {
         setErrors([error.response.data.message]);
       }
+    }
+  };
+
+  const handleNextClick = () => {
+    if (formRef.current) {
+      const hiddenSubmitButton = formRef.current.querySelector(
+        'button[type="submit"]'
+      );
+      if (hiddenSubmitButton) {
+        hiddenSubmitButton.click();
+      }
+    }
+  };
+
+  const nextStep = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const previousStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -202,6 +240,8 @@ const Index = () => {
           space={space}
           userInfo={userInfo}
           setUserInfo={setUserInfo}
+          formRef={formRef}
+          nextStep={nextStep}
         />
       ),
     },
@@ -219,6 +259,8 @@ const Index = () => {
         <ReservationDetail
           reservationDetails={reservationDetails}
           setReservationDetails={setReservationDetails}
+          formRef={formRef}
+          nextStep={nextStep}
         />
       ),
     },
@@ -241,21 +283,9 @@ const Index = () => {
     return <>{content}</>;
   };
 
-  const nextStep = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const previousStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
   return (
     <>
-      <div className="modal-body tw-w-full">
+      <div className="modal-body tw-w-full" ref={modalBodyRef}>
         <div className="row x-gap-40 y-gap-30 items-center">
           {steps.map((step, index) => (
             <React.Fragment key={index}>
@@ -292,7 +322,7 @@ const Index = () => {
           ))}
         </div>
         {/* End stepper header part */}
-        <div className="tw-mt-9">
+        <div className="tw-mt-9 errors">
           {errors.length > 0 && (
             <ul className="tw-text-red-700">
               {errors.map((error, index) => (
@@ -326,7 +356,7 @@ const Index = () => {
               onClick={
                 currentStep === steps.length - 1
                   ? handleSubmitRequest
-                  : nextStep
+                  : handleNextClick
               }
             >
               {currentStep === steps.length - 1 ? "Request" : "Next"}

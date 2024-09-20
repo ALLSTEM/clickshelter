@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import BookingDetails from "./sidebar/BookingDetails";
 import { useSelector } from "react-redux";
 
-const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
+const CustomerInfo = ({ space, userInfo, setUserInfo, formRef, nextStep }) => {
   const { user } = useSelector((state) => state.auth);
 
   const handleChange = (e) => {
@@ -30,8 +30,18 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
     }
   }, [user]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    nextStep();
+    // Add your form validation logic here
+
+    console.log("Form submitted", userInfo);
+    // If validation passes, you can call a function to move to the next step
+  };
+
   return (
-    <>
+    <form ref={formRef} onSubmit={handleSubmit}>
       <div className="mt-30">
         {!user && (
           <div className="py-15 px-20 rounded-4 text-15 bg-blue-1-05">
@@ -81,7 +91,7 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
           <div className="col-md-6">
             <div className="form-input">
               <input
-                type="text"
+                type="email"
                 name="email"
                 value={userInfo.email}
                 onChange={handleChange}
@@ -132,7 +142,6 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
                 name="addressLine2"
                 value={userInfo.addressLine2}
                 onChange={handleChange}
-                required
                 disabled={isFieldDisabled("address_line_two")}
               />
               <label className="lh-1 text-16 text-light-1">
@@ -142,14 +151,13 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
           </div>
           {/* End col-12 */}
 
-          <div className="col-md-6">
+          <div className="col-12">
             <div className="form-input">
               <input
                 type="text"
                 name="state"
                 value={userInfo.state}
                 onChange={handleChange}
-                required
                 disabled={isFieldDisabled("state")}
               />
               <label className="lh-1 text-16 text-light-1">
@@ -157,21 +165,7 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
               </label>
             </div>
           </div>
-          {/* End col-12 */}
 
-          <div className="col-md-6">
-            <div className="form-input">
-              <input
-                type="text"
-                name="zipCode"
-                value={userInfo.zipCode}
-                onChange={handleChange}
-                required
-                disabled={isFieldDisabled("zip_code")}
-              />
-              <label className="lh-1 text-16 text-light-1">Post code</label>
-            </div>
-          </div>
           {/* End col-12 */}
 
           <div className="col-12">
@@ -211,8 +205,11 @@ const CustomerInfo = ({ space, userInfo, setUserInfo }) => {
           {space && <BookingDetails space={space} />}
         </div>
       </div>
+      <button type="submit" style={{ display: "none" }}>
+        Submit
+      </button>
       {/*  */}
-    </>
+    </form>
   );
 };
 
