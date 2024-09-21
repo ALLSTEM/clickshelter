@@ -89,7 +89,7 @@ const Header = () => {
                   )}
                 </div>
 
-                {/* End btn-group */}
+                {/* End btn-group ***/}
 
                 {/* Start mobile menu icon */}
                 <div className="d-none xl:d-flex x-gap-20 items-center pl-30 text-white">
