@@ -23,4 +23,8 @@ export const headerRouteList = [
     name: "Contact Us",
     link: "/contact",
   },
+  {
+    name: "Become A landlord",
+    link: "/signup?type=host",
+  },
 ];

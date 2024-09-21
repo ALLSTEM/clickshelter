@@ -56,14 +56,14 @@ const Header = () => {
                 {/* Start btn-group */}
 
                 <div className="d-flex items-center ml-20 is-menu-opened-hide md:d-none">
-                  {user && user.type !== "host" && (
+                  {/* {user && user.type !== "host" && (
                     <Link
                       to="/signup?type=host"
                       className="button px-30 fw-400 text-14 -white bg-white h-50 text-dark-1"
                     >
                       Become A Landlord
                     </Link>
-                  )}
+                  )} */}
 
                   {!user && (
                     <Link
@@ -71,6 +71,20 @@ const Header = () => {
                       className="button px-30 fw-400 text-14 border-white -outline-white h-50 text-white ml-20"
                     >
                       Sign In / Register
+                    </Link>
+                  )}
+                  {user && (
+                    <Link
+                      to={
+                        user.type == "user"
+                          ? "/dashboard/user"
+                          : user.type == "admin"
+                          ? "dashboard/admin"
+                          : "dashboard/host"
+                      }
+                      className="button px-30 fw-400 text-14 -white bg-white h-50 text-dark-1"
+                    >
+                      Dashboard
                     </Link>
                   )}
                 </div>

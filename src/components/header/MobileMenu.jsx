@@ -5,9 +5,12 @@ import Social from "../common/social/Social";
 import ContactInfo from "./ContactInfo";
 import { useNavigate } from "react-router-dom";
 import { headerRouteList } from "@/utils/menu-list";
+import { useSelector } from "react-redux";
 
 const MobileMenu = () => {
   const { pathname } = useLocation();
+
+  const { user } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
 
@@ -59,12 +62,27 @@ const MobileMenu = () => {
           </div>
         </div>
         <div className="mt-20">
-          <Link
-            className=" button -dark-1 px-30 fw-400 text-14 bg-blue-1 h-50 text-white"
-            to="/login"
-          >
-            Login
-          </Link>
+          {user ? (
+            <Link
+              to={
+                user.type == "user"
+                  ? "/dashboard/user"
+                  : user.type == "admin"
+                  ? "dashboard/admin"
+                  : "dashboard/host"
+              }
+              className="button -dark-1 px-30 fw-400 text-14 bg-blue-1 h-50 text-white"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              className=" button -dark-1 px-30 fw-400 text-14 bg-blue-1 h-50 text-white"
+              to="/login"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
       {/* End pro-footer */}
