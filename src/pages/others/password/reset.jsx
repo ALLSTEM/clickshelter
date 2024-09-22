@@ -10,11 +10,12 @@ const metadata = {
   description: "Confirm Account || ClickShelter",
 };
 
-const ConfirmAccount = () => {
+const ResetPassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { email, tokenID } = location.state || {};
   const [pin, setPin] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [errors, setErrors] = useState([]);
@@ -49,14 +50,14 @@ const ConfirmAccount = () => {
 
     try {
       setLoading(true);
-      const response = await requests.post(`/auth/register/confirm`, {
+      const response = await requests.post(`/auth/password/confirm`, {
         email,
         token: pin,
         token_id: tokenID,
       });
 
       console.log("Account confirmed:", response.data);
-      toast.success("Account confirmed successfully! Please login to continue");
+      toast.success(response.message);
 
       navigate("/login");
     } catch (error) {
@@ -121,14 +122,14 @@ const ConfirmAccount = () => {
                   <h1 className="text-22 fw-500">Confirm Your Account</h1>
                   {email ? (
                     <p>
-                      A confirmation email has been sent to{" "}
-                      <strong>{email}</strong>. Please check your email and
-                      enter the OTP below to confirm your account.
+                      A reset email has been sent to <strong>{email}</strong>.
+                      Please check your email and enter the OTP below to change
+                      password.
                     </p>
                   ) : (
                     <p>
-                      A confirmation email has been sent. Please check your
-                      email and enter the OTP below to confirm your account.
+                      A reset email has been sent. Please check your email and
+                      enter the OTP below to change password.
                     </p>
                   )}
 
@@ -146,6 +147,20 @@ const ConfirmAccount = () => {
                       autoSelect={true}
                       regexCriteria={/^[0-9]*$/}
                     />
+                  </div>
+                  <div className="col-12">
+                    <div className="form-input ">
+                      <input
+                        type="password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.value)}
+                        name="password"
+                      />
+                      <label className="lh-1 text-14 text-light-1">
+                        Password
+                      </label>
+                    </div>
                   </div>
                   <div className="col-12">
                     <button
@@ -179,4 +194,4 @@ const ConfirmAccount = () => {
   );
 };
 
-export default ConfirmAccount;
+export default ResetPassword;

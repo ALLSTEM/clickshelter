@@ -43,8 +43,11 @@ const addResponseInterceptor = (instance) => {
   instance.interceptors.response.use(
     (response) => response,
     (error) => {
+      console.log(error);
+
       if (error.response && error.response.status === 401) {
         console.log("ejej");
+        localStorage.clear();
         window.location.href = "/login";
       }
       return Promise.reject(error);

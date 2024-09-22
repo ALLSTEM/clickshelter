@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { authRequests, requests } from "@/utils/http";
 
 const PasswordInfo = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -9,6 +10,7 @@ const PasswordInfo = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [errors, setErrors] = useState([]);
 
   const userId = useSelector((state) => state.auth.user.id);
 
@@ -21,19 +23,43 @@ const PasswordInfo = () => {
     }
 
     try {
-      const response = await axios.post("/user/profile/update-password", {
+      const response = await authRequests.put("/user/profile/update-password", {
         current_password: currentPassword,
         new_password: newPassword,
       });
 
+      setNewPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setErrors([]);
       toast.success(response.message);
-    } catch (err) {
+    } catch (error) {
+      if (error.response.data.errors) {
+        const errorMessages = [];
+        for (const key in error.response.data.errors) {
+          if (error.response.data.errors.hasOwnProperty(key)) {
+            errorMessages.push(...error.response.data.errors[key]);
+          }
+        }
+        setErrors(errorMessages);
+      } else {
+        setErrors([error.response.data.message]);
+      }
+
       setError("An error occurred while updating the password.");
+    } finally {
     }
   };
 
   return (
     <form className="col-xl-9" onSubmit={handleSubmit}>
+      {errors.length > 0 && (
+        <ul className="tw-text-red-700">
+          {errors.map((error, index) => (
+            <li key={index}>{error}</li>
+          ))}
+        </ul>
+      )}
       <div className="row x-gap-20 y-gap-20">
         <div className="col-12">
           <div className="form-input">

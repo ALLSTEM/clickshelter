@@ -4,6 +4,7 @@ import MetaComponent from "@/components/common/MetaComponent";
 import UsersTable from "@/components/tables/user-table";
 import { userData } from "@/data/dummy";
 import { authRequests } from "@/utils/http";
+import NotAuthorized from "@/components/common/401";
 
 const metadata = {
   title: "Hosts",
@@ -32,6 +33,10 @@ export default function AdminHosts() {
     }
     getUsers();
   }, [currentPage]);
+
+  // if (!["super", "admin"].includes(user.role)) {
+  //   return <NotAuthorized />;
+  // }
 
   return (
     <>

@@ -6,6 +6,9 @@ import AdminTable from "@/components/tables/admin-table";
 import { adminData } from "@/data/dummy";
 import { authRequests } from "@/utils/http";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import NotFound from "@/components/common/NotFound";
+import NotAuthorized from "@/components/common/401";
 
 const metadata = {
   title: "Admins",
@@ -101,6 +104,13 @@ export default function AdminAdmin() {
       setLoading(false);
     }
   };
+
+  const { user } = useSelector((state) => state.auth);
+
+  if (!["super", "admin"].includes(user.role)) {
+    return <NotAuthorized />;
+  }
+
   return (
     <>
       <Dialog

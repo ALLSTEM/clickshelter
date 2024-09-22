@@ -9,6 +9,7 @@ import {
 import { RiArrowDownDoubleLine } from "react-icons/ri";
 import { authRequests } from "@/utils/http";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const statusOptions = ["deactivated", "pending", "active", "suspended"];
 
@@ -63,6 +64,8 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
     data.reduce((acc, row) => ({ ...acc, [row.id]: row.status }), {})
   );
 
+  const { user } = useSelector((state) => state.auth);
+
   const handleStatusChange = async (id, newStatus) => {
     // Add logic to update status in backend or state management
     try {
@@ -90,6 +93,20 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
     );
   }, [data]);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await authRequests.delete(`/admin/users/${id}/delete`);
+
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const handleDisable = () => {};
+
+  console.log("user.type", user.role);
+
   return (
     <div>
       <div className="overflow-scroll scroll-bar-1 pt-30">
@@ -105,6 +122,8 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
               <th>Occupation</th>
               <th>Country</th>
               <th>Created At</th>
+
+              {["super", "admin"].includes(user.role) && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -123,6 +142,18 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
                 <td>{row.occupation}</td>
                 <td>{row.country}</td>
                 <td>{row.created_at}</td>
+
+                {["super", "admin"].includes(user.role) && (
+                  <td>
+                    <button
+                      onClick={() => handleDelete(row.id)}
+                      className="btn btn-secondary "
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

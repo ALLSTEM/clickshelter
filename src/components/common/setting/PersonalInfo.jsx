@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 const PersonalInfo = () => {
   const { user } = useSelector((state) => state.auth);
+  const [errors, setErrors] = useState([]);
   const [formData, setFormData] = useState({
     first_name: user?.first_name || "",
     last_name: user?.last_name || "",
@@ -21,11 +22,23 @@ const PersonalInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setErrors([]);
     try {
       await authRequests.put(`/user/profile`, formData);
       toast.success("Profile updated successfully!");
     } catch (error) {
+      if (error.response.data.errors) {
+        const errorMessages = [];
+        for (const key in error.response.data.errors) {
+          if (error.response.data.errors.hasOwnProperty(key)) {
+            errorMessages.push(...error.response.data.errors[key]);
+          }
+        }
+        setErrors(errorMessages);
+      } else {
+        setErrors([error.response.data.message]);
+      }
+
       toast.error("Failed to update profile.");
     }
   };
@@ -33,6 +46,13 @@ const PersonalInfo = () => {
   return (
     <>
       <form onSubmit={handleSubmit}>
+        {errors.length > 0 && (
+          <ul className="tw-text-red-700">
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        )}
         <div className="col-xl-9">
           <div className="row x-gap-20 y-gap-20">
             <div className="col-md-6">

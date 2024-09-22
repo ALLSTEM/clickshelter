@@ -59,6 +59,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ConfirmAccount from "./pages/others/confirm-account";
 import SingleRequest from "./pages/dashboard/admin-dashboard/singleRequest";
+import ForgetPasswordPage from "./pages/others/password/forget";
+import ResetPassword from "./pages/others/password/reset";
 
 function App() {
   useEffect(() => {
@@ -81,6 +83,8 @@ function App() {
               <Route path="help-center" element={<HelpCenter />} />
               <Route path="signup" element={<SignUp />} />
               <Route path="confirm-account" element={<ConfirmAccount />} />
+              <Route path="forget-password" element={<ForgetPasswordPage />} />
+              <Route path="reset-password" element={<ResetPassword />} />
               <Route path="login" element={<LogIn />} />
               <Route path="terms" element={<Terms />} />
               <Route path="contact" element={<Contact />} />
