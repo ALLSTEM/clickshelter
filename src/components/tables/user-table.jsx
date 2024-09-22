@@ -10,6 +10,7 @@ import { RiArrowDownDoubleLine } from "react-icons/ri";
 import { authRequests } from "@/utils/http";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const statusOptions = ["deactivated", "pending", "active", "suspended"];
 
@@ -93,11 +94,14 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
     );
   }, [data]);
 
+  const navigate = useNavigate();
+
   const handleDelete = async (id) => {
     try {
       const response = await authRequests.delete(`/admin/users/${id}/delete`);
 
       toast.success(response.message);
+      navigate(0);
     } catch (error) {
       toast.error(error.response.data.message);
     }
