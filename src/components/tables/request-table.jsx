@@ -19,6 +19,7 @@ const statusOptions = [
   "rejected",
   "queried",
   "assigned",
+  "completed",
 ];
 
 const statusRender = (status, isAdmin, onChange) => {
@@ -35,6 +36,8 @@ const statusRender = (status, isAdmin, onChange) => {
       case "queried":
         return "bg-yellow-4 text-yellow-3";
       case "assigned":
+        return "tw-bg-blue-900 !tw-text-white";
+      case "completed":
         return "tw-bg-blue-900 !tw-text-white";
       default:
         return "bg-grey text-grey";
