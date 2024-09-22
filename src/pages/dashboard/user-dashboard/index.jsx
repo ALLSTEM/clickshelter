@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
 import RequestTable from "@/components/tables/request-table";
 import { Link } from "react-router-dom";
 import { requestData } from "@/data/dummy";
+import { toast } from "react-toastify";
+import { authRequests } from "@/utils/http";
 
 const metadata = {
   title: "User Dashboard",
@@ -26,6 +28,45 @@ const data = [
 ];
 
 export default function UserDashboard() {
+  const [analytics, setAnalytics] = useState();
+
+  useEffect(() => {
+    async function getAnalytics() {
+      try {
+        const response = await authRequests.get(`/user/analytics`);
+
+        setAnalytics(response.data);
+
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Error fetching analytics");
+      }
+    }
+
+    getAnalytics();
+  }, []);
+
+  const getCount = (title) => {
+    console.log(title);
+
+    let count;
+    switch (title) {
+      case "Report":
+        count = analytics?.total_report;
+        break;
+
+      case "Request":
+        count = analytics?.total_request;
+        break;
+
+      default:
+        count = 0;
+        break;
+    }
+
+    return count;
+  };
+
   return (
     <div className="tw-h-screen">
       <MetaComponent meta={metadata} />
@@ -47,7 +88,7 @@ export default function UserDashboard() {
                     <div className="col-auto">
                       <div className="fw-500 lh-14">{item.title}</div>
                       <div className="text-26 lh-16 fw-600 mt-5">
-                        {item.amount}
+                        {getCount(item.title)}
                       </div>
                       <div className="text-15 lh-14 text-light-1 mt-5">
                         {item.description}

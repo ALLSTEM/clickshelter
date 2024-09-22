@@ -35,7 +35,19 @@ const data = [
   {
     title: "Users",
     amount: "22",
-    description: "Total tenants",
+    description: "Total users",
+    icon: "/img/dashboard/sidebar/booking.svg",
+  },
+  {
+    title: "Admins",
+    amount: "22",
+    description: "Total admins",
+    icon: "/img/dashboard/sidebar/booking.svg",
+  },
+  {
+    title: "Spaces",
+    amount: "22",
+    description: "Total spaces",
     icon: "/img/dashboard/sidebar/booking.svg",
   },
 ];
@@ -46,6 +58,7 @@ export default function AdminDashboard() {
 
   const [loading, setLoading] = useState(false);
   const [requests, setRequests] = useState([]);
+  const [analytics, setAnalytics] = useState();
 
   useEffect(() => {
     async function getRequests() {
@@ -58,8 +71,54 @@ export default function AdminDashboard() {
       setRequests(response.data.data);
     }
 
+    async function getAnalytics() {
+      try {
+        const response = await authRequests.get(`/admin/analytics`);
+
+        setAnalytics(response.data);
+
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Error fetching analytics");
+      }
+    }
+
     getRequests();
+    getAnalytics();
   }, [currentPage]);
+
+  const getCount = (title) => {
+    console.log(title);
+
+    let count;
+    switch (title) {
+      case "Spaces":
+        count = analytics?.total_space;
+        break;
+      case "Reports":
+        count = analytics?.total_report;
+        break;
+
+      case "Requests":
+        count = analytics?.total_request;
+        break;
+      case "Users":
+        count = analytics?.total_users;
+        break;
+      case "Admins":
+        count = analytics?.total_admin;
+        break;
+      case "Hosts":
+        count = analytics?.total_host;
+        break;
+      default:
+        count = 0;
+        break;
+    }
+
+    return count;
+  };
+
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -76,13 +135,13 @@ export default function AdminDashboard() {
         <div className="col-xl-7 col-md-6">
           <div className="row y-gap-30">
             {data.map((item, index) => (
-              <div key={index} className="col-xl-3 col-md-6">
+              <div key={index} className="col-xl-4 col-md-6">
                 <div className="py-30 px-30 rounded-4 bg-white shadow-3">
                   <div className="row y-gap-20 justify-between items-center">
                     <div className="col-auto">
                       <div className="fw-500 lh-14">{item.title}</div>
                       <div className="text-26 lh-16 fw-600 mt-5">
-                        {item.amount}
+                        {getCount(item.title)}
                       </div>
                       <div className="text-15 lh-14 text-light-1 mt-5">
                         {item.description}

@@ -50,8 +50,18 @@ const LoginForm = () => {
 
       console.log(response.data);
     } catch (error) {
-      setError(error.response.data.message);
       console.log(error);
+
+      setError(error.response.data.message);
+
+      if (error.response.data?.data?.token_id) {
+        navigate("/confirm-account", {
+          state: {
+            email: userInfo.email,
+            tokenID: error.response.data?.data?.token_id,
+          },
+        });
+      }
     } finally {
       setLoading(false);
     }

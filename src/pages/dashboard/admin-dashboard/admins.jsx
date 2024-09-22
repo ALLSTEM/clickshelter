@@ -64,6 +64,7 @@ export default function AdminAdmin() {
   const handleAddAdmin = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrors([]);
     try {
       const response = await authRequests.post(`/admin/admins`, formData);
       toast.success(response.message);
@@ -75,6 +76,14 @@ export default function AdminAdmin() {
       setUsers(getAdmins.data.data);
       setTotalPages(getAdmins.data.last_page);
 
+      setFormData({
+        first_name: "",
+        last_name: "",
+        email: "",
+        role: "",
+        status: "active",
+      });
+      setErrors([]);
       close(); // Close the modal after successful submission
     } catch (error) {
       if (error.response.data.errors) {

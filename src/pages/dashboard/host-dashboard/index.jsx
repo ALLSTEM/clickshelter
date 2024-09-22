@@ -15,9 +15,9 @@ const metadata = {
 
 const data = [
   {
-    title: "Request",
+    title: "Space",
     amount: "12",
-    description: "Total requests",
+    description: "Total spaces",
     icon: "/img/dashboard/sidebar/house.svg",
   },
   {
@@ -28,9 +28,9 @@ const data = [
   },
 
   {
-    title: "Message",
+    title: "Request",
     amount: "2",
-    description: "Total unread messages",
+    description: "Total requests",
     icon: "/img/dashboard/icons/4.svg",
   },
   {
@@ -44,6 +44,8 @@ const data = [
 export default function HostDashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+
+  const [analytics, setAnalytics] = useState();
 
   const [payouts, setPayouts] = useState([]);
 
@@ -62,8 +64,48 @@ export default function HostDashboard() {
         toast.error("Error fetching payouts");
       }
     }
+
+    async function getAnalytics() {
+      try {
+        const response = await authRequests.get(`/host/analytics`);
+
+        setAnalytics(response.data);
+
+        console.log(response.data);
+      } catch (error) {
+        toast.error("Error fetching analytics");
+      }
+    }
+
     getPayouts();
+    getAnalytics();
   }, [currentPage]);
+
+  const getCount = (title) => {
+    console.log(title);
+
+    let count;
+    switch (title) {
+      case "Space":
+        count = analytics?.space_count;
+        break;
+      case "Report":
+        count = analytics?.total_report;
+        break;
+
+      case "Request":
+        count = analytics?.total_request;
+        break;
+      case "Tenants":
+        count = analytics?.total_tenant;
+        break;
+      default:
+        count = 0;
+        break;
+    }
+
+    return count;
+  };
   return (
     <>
       <MetaComponent meta={metadata} />
@@ -84,7 +126,7 @@ export default function HostDashboard() {
                     <div className="col-auto">
                       <div className="fw-500 lh-14">{item.title}</div>
                       <div className="text-26 lh-16 fw-600 mt-5">
-                        {item.amount}
+                        {getCount(item.title)}
                       </div>
                       <div className="text-15 lh-14 text-light-1 mt-5">
                         {item.description}
