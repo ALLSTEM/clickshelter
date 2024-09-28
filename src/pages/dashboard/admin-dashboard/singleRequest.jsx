@@ -110,208 +110,217 @@ const SingleRequest = () => {
         </div>
       </div>
       <h4 className="text-20 fw-500 mb-30">User Information</h4>
-      <div className="row y-gap-10">
-        <div className="col-12">
-          <div className="d-flex justify-between">
-            <div className="text-15 lh-16">First name</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.first_name || "Info not available"}
+      {user ? (
+        <div className="row y-gap-10">
+          <div className="col-12">
+            <div className="d-flex justify-between">
+              <div className="text-15 lh-16">First name</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.first_name || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Last name</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.last_name || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Email</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.email || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Status</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.status || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Address Line One</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.address_line_one || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Address Line Two</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.address_line_two || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Country</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.country || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Date of Birth</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.date_of_birth || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Occupation</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.occupation || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Phone</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.phone || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Phone Code</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.phone_code || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">State</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.state || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Post Code</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {user.zip_code || "Info not available"}
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Last name</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.last_name || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Email</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.email || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Status</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.status || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Address Line One</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.address_line_one || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Address Line Two</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.address_line_two || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Country</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.country || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Date of Birth</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.date_of_birth || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Occupation</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.occupation || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Phone</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.phone || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Phone Code</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.phone_code || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">State</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.state || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Post Code</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {user.zip_code || "Info not available"}
-            </div>
-          </div>
-        </div>
-      </div>
+      ) : (
+        <p>User not found</p>
+      )}
 
       <h4 className="text-20 fw-500 mb-30 tw-mt-7">Reservation Details</h4>
-      <div className="row y-gap-10">
-        <div className="col-12">
-          <div className="d-flex justify-between">
-            <div className="text-15 lh-16">Guest Adults</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.guest_adults || "Info not available"}
+
+      {requestData ? (
+        <div className="row y-gap-10">
+          <div className="col-12">
+            <div className="d-flex justify-between">
+              <div className="text-15 lh-16">Guest Adults</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.guest_adults || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Guest Children</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.guest_children || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Payment Status</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.payment_status || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Move-In Date</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.move_in_date || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Move-Out Date</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.move_out_date || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Property Type</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.property_type || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Duration of Stay</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.duration_of_stay || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Pet Preference</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.pet_preference || "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Budget Min</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.budget_min
+                  ? requestData.budget_min
+                  : "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Budget Max</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.budget_max
+                  ? requestData.budget_max
+                  : "Info not available"}
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="d-flex justify-between border-top-light pt-10">
+              <div className="text-15 lh-16">Additional Info</div>
+              <div className="text-15 lh-16 fw-500 text-blue-1">
+                {requestData.additional_info || "Info not available"}
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Guest Children</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.guest_children || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Payment Status</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.payment_status || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Move-In Date</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.move_in_date || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Move-Out Date</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.move_out_date || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Property Type</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.property_type || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Duration of Stay</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.duration_of_stay || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Pet Preference</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.pet_preference || "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Budget Min</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.budget_min
-                ? requestData.budget_min
-                : "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Budget Max</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.budget_max
-                ? requestData.budget_max
-                : "Info not available"}
-            </div>
-          </div>
-        </div>
-        <div className="col-12">
-          <div className="d-flex justify-between border-top-light pt-10">
-            <div className="text-15 lh-16">Additional Info</div>
-            <div className="text-15 lh-16 fw-500 text-blue-1">
-              {requestData.additional_info || "Info not available"}
-            </div>
-          </div>
-        </div>
-      </div>
+      ) : (
+        <p>Request data not found</p>
+      )}
 
       <h4 className="text-20 fw-500 mb-30 tw-mt-7">Space Information</h4>
       {space ? (
