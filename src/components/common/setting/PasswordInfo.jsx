@@ -11,6 +11,7 @@ const PasswordInfo = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [errors, setErrors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const userId = useSelector((state) => state.auth.user.id);
 
@@ -21,6 +22,8 @@ const PasswordInfo = () => {
       toast.error("New passwords do not match.");
       return;
     }
+
+    setIsLoading(true);
 
     try {
       const response = await authRequests.put("/user/profile/update-password", {
@@ -48,6 +51,7 @@ const PasswordInfo = () => {
 
       setError("An error occurred while updating the password.");
     } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,7 +123,13 @@ const PasswordInfo = () => {
                 type="submit"
                 className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
               >
-                Save Changes <div className="icon-arrow-top-right ml-15" />
+                {isLoading ? (
+                  <span>Loading...</span> // Show loading text or spinner
+                ) : (
+                  <>
+                    Save Changes <div className="icon-arrow-top-right ml-15" />
+                  </>
+                )}
               </button>
             </div>
             <div className="col-auto">
