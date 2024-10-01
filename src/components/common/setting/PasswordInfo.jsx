@@ -24,6 +24,8 @@ const PasswordInfo = () => {
     }
 
     setIsLoading(true);
+    setErrors([]);
+    setError("");
 
     try {
       const response = await authRequests.put("/user/profile/update-password", {
