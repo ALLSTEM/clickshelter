@@ -85,7 +85,7 @@ const statusRender = (status, isAdmin, onChange) => {
   );
 };
 
-const RequestTable = ({
+const DeletedRequestTable = ({
   data,
   currentPage,
   setCurrentPage,
@@ -123,10 +123,12 @@ const RequestTable = ({
 
   const { user: AuthUser } = useSelector((state) => state.auth);
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this request?")) {
+  const handleRestore = async (id) => {
+    if (window.confirm("Are you sure you want to restore this request?")) {
       try {
-        const response = await authRequests.delete(`/admin/requests/${id}`);
+        const response = await authRequests.post(
+          `/admin/requests/${id}/restore`
+        );
         toast.success(response.message);
         navigate(0);
       } catch (error) {
@@ -185,19 +187,11 @@ const RequestTable = ({
                 <td>{dayjs(row?.created_at).format("MMMM DD")}</td>
                 <td className="tw-flex tw-items-center">
                   <button
-                    onClick={() => navigate(`/dashboard/requests/${row?.id}`)}
+                    onClick={() => handleRestore(row?.id)}
                     className="tw-cursor-pointer tw-bg-blue-800 tw-mr-2 tw-px-3 tw-py-2 tw-rounded-lg tw-text-center tw-self-start tw-text-white"
                   >
-                    View
+                    Restore
                   </button>
-                  {["super", "admin"].includes(AuthUser.role) && (
-                    <button
-                      onClick={() => handleDelete(row?.id)}
-                      className="tw-cursor-pointer tw-bg-red-800 tw-px-3 tw-py-2 tw-rounded-lg tw-text-center tw-self-start tw-text-white"
-                    >
-                      Delete
-                    </button>
-                  )}
                 </td>
               </tr>
             ))}
@@ -216,4 +210,4 @@ const RequestTable = ({
   );
 };
 
-export default RequestTable;
+export default DeletedRequestTable;

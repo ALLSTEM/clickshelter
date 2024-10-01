@@ -125,10 +125,10 @@ export const dashboardItems = [
     name: "Vendor Recovery",
     routePath: "/vendor-dashboard/recovery",
   },
-  {
-    name: "Logout",
-    routePath: "/login",
-  },
+  // {
+  //   name: "Logout",
+  //   routePath: "/login",
+  // },
 ];
 
 export const categorieMegaMenuItems = [

@@ -52,7 +52,7 @@ const ConfirmAccount = () => {
       const response = await requests.post(`/auth/register/confirm`, {
         email,
         token: pin,
-        token_id: tokenID,
+        token_id: localTokenId,
       });
 
       console.log("Account confirmed:", response.data);

@@ -61,6 +61,7 @@ import ConfirmAccount from "./pages/others/confirm-account";
 import SingleRequest from "./pages/dashboard/admin-dashboard/singleRequest";
 import ForgetPasswordPage from "./pages/others/password/forget";
 import ResetPassword from "./pages/others/password/reset";
+import ProtectedRoute from "./hooks/withProtectedRoute";
 
 function App() {
   useEffect(() => {
@@ -90,7 +91,14 @@ function App() {
               <Route path="contact" element={<Contact />} />
               <Route path="booking" element={<BookingPage />} />
             </Route>
-            <Route path="/dashboard" element={<DashLayout />}>
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route path="spaces/:id" element={<SingleSpace />} />
               <Route path="requests/:id" element={<SingleRequest />} />
               <Route path="spaces/add" element={<HostAddHouse />} />

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 import RequestTable from "@/components/tables/request-table";
 import { authRequests } from "@/utils/http";
+import DeletedRequestTable from "@/components/tables/deleted-request-table";
+import { useSelector } from "react-redux";
 
 const metadata = {
   title: "Requests",
@@ -24,6 +26,13 @@ export default function AdminRequests() {
   const [assignedRequests, setAssignedRequests] = useState([]);
   const [assignedCurrentPage, setAssignedCurrentPage] = useState(1);
   const [assignedTotalPages, setAssignedTotalPages] = useState(0);
+
+  // State management for deleted requests
+  const [deletedRequests, setDeletedRequests] = useState([]);
+  const [deletedCurrentPage, setDeletedCurrentPage] = useState(1);
+  const [deletedTotalPages, setDeletedTotalPages] = useState(0);
+
+  const { user: AuthUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
     async function getRequests() {
@@ -51,13 +60,26 @@ export default function AdminRequests() {
         setAssignedRequests(responseAssign.data.data);
         setAssignedCurrentPage(responseAssign.data.current_page);
         setAssignedTotalPages(responseAssign.data.last_page);
+
+        // Fetch deleted requests
+        const responseDeleted = await authRequests.get(
+          `/admin/requests?page=${deletedCurrentPage}&status=deleted`
+        );
+        setDeletedRequests(responseDeleted.data.data);
+        setDeletedCurrentPage(responseDeleted.data.current_page);
+        setDeletedTotalPages(responseDeleted.data.last_page);
       } catch (error) {
         console.error("Failed to fetch requests:", error);
       }
     }
 
     getRequests();
-  }, [requestsCurrentPage, openCurrentPage, assignedCurrentPage]);
+  }, [
+    requestsCurrentPage,
+    openCurrentPage,
+    assignedCurrentPage,
+    deletedCurrentPage,
+  ]);
 
   return (
     <>
@@ -95,7 +117,7 @@ export default function AdminRequests() {
           totalPage={assignedTotalPages}
         />
       </div>
-      <div className="py-30 px-30 rounded-4 bg-white shadow-3">
+      <div className="py-30 px-30 rounded-4 bg-white shadow-3 tw-mt-5">
         <div className="d-flex justify-between items-center">
           <h2 className="text-18 lh-1 fw-500">All Requests</h2>
         </div>
@@ -107,6 +129,20 @@ export default function AdminRequests() {
           totalPage={requestsTotalPages}
         />
       </div>
+      {["super", "admin"].includes(AuthUser.role) && (
+        <div className="py-30 px-30 rounded-4 bg-white shadow-3 tw-mt-5">
+          <div className="d-flex justify-between items-center">
+            <h2 className="text-18 lh-1 fw-500">Deleted Requests</h2>
+          </div>
+          <DeletedRequestTable
+            isAdmin
+            data={deletedRequests}
+            currentPage={deletedCurrentPage}
+            setCurrentPage={setDeletedCurrentPage}
+            totalPage={deletedTotalPages}
+          />
+        </div>
+      )}
     </>
   );
 }

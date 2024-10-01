@@ -34,13 +34,14 @@ const LoginForm = () => {
       toast("Login successful");
 
       dispatch(loginUser(response.data));
-
+      console.log(response.data.user.type);
       switch (response.data.user.type) {
         case "user":
           navigate("/dashboard/user");
           break;
         case "admin":
           navigate("/dashboard/admin");
+          break;
         case "host":
           navigate("/dashboard/host");
           break;

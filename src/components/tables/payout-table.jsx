@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./Pagination";
-import { RiArrowDownDoubleLine, RiEyeLine } from "react-icons/ri";
+import {
+  RiArrowDownDoubleLine,
+  RiDeleteBinLine,
+  RiEyeLine,
+} from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,
@@ -109,6 +113,21 @@ const PayoutTable = ({
     }
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this payout?")) {
+      try {
+        const response = await authRequests.delete(`/admin/payouts/${id}`);
+        toast.success(response.message);
+        navigate(0);
+      } catch (error) {
+        toast.error(
+          error.response?.data?.message ||
+            "An error occurred while deleting the payout"
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     setStatuses(
       data.reduce((acc, row) => ({ ...acc, [row.id]: row.status }), {})
@@ -173,6 +192,13 @@ const PayoutTable = ({
                     onClick={() => setPayout(row)}
                   >
                     <RiEyeLine size={20} />
+                  </div>
+                  <div
+                    title="View Invoice"
+                    className="tw-mr-3 tw-cursor-pointer"
+                    onClick={() => handleDelete(row.id)}
+                  >
+                    <RiDeleteBinLine className="tw-text-red-400" size={20} />
                   </div>
                 </td>
               </tr>

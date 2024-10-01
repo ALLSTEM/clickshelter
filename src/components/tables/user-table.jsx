@@ -69,23 +69,26 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
 
   const handleStatusChange = async (id, newStatus) => {
     // Add logic to update status in backend or state management
-    try {
-      const response = await authRequests.put(
-        `/admin/users/${id}/${newStatus}`
-      );
 
-      console.log(id);
+    if (window.confirm("Are you sure you want to change status?")) {
+      try {
+        const response = await authRequests.put(
+          `/admin/users/${id}/${newStatus}`
+        );
 
-      setStatuses((prevStatuses) => ({
-        ...prevStatuses,
-        [id]: newStatus,
-      }));
+        console.log(id);
 
-      toast.success(response.message);
-    } catch (error) {
-      toast.error(error.response.data.message);
+        setStatuses((prevStatuses) => ({
+          ...prevStatuses,
+          [id]: newStatus,
+        }));
+
+        toast.success(response.message);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+      console.log(`Update status for id ${id} to ${newStatus}`);
     }
-    console.log(`Update status for id ${id} to ${newStatus}`);
   };
 
   useEffect(() => {
@@ -96,20 +99,22 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
 
   const navigate = useNavigate();
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await authRequests.delete(`/admin/users/${id}/delete`);
+  const { user: AuthUser } = useSelector((state) => state.auth);
 
-      toast.success(response.message);
-      navigate(0);
-    } catch (error) {
-      toast.error(error.response.data.message);
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete user?")) {
+      try {
+        const response = await authRequests.delete(`/admin/users/${id}/delete`);
+
+        toast.success(response.message);
+        navigate(0);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     }
   };
 
   const handleDisable = () => {};
-
-  console.log("user.type", user.role);
 
   return (
     <div>
@@ -127,7 +132,7 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
               <th>Country</th>
               <th>Created At</th>
 
-              {["super", "admin"].includes(user.role) && <th>Action</th>}
+              {["super", "admin"].includes(AuthUser.role) && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -147,7 +152,7 @@ const UsersTable = ({ data, currentPage, setCurrentPage, totalPages }) => {
                 <td>{row.country}</td>
                 <td>{row.created_at}</td>
 
-                {["super", "admin"].includes(user.role) && (
+                {["super", "admin"].includes(AuthUser.role) && (
                   <td>
                     <button
                       onClick={() => handleDelete(row.id)}

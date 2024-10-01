@@ -3,6 +3,8 @@ import Pagination from "./Pagination";
 import { RiChat1Line } from "react-icons/ri";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { authRequests } from "@/utils/http";
+import { useSelector } from "react-redux";
 
 const statusRender = (status) => {
   let el;
@@ -43,6 +45,22 @@ const statusRender = (status) => {
 
 const TenantTable = ({ data, currentPage, setCurrentPage, totalPage }) => {
   const navigate = useNavigate();
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete tenant?")) {
+      try {
+        const response = await authRequests.delete(`/admin/users/${id}/delete`);
+
+        toast.success(response.message);
+        navigate(0);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
+
+  const { user: AuthUser } = useSelector((state) => state.auth);
+
   return (
     <div>
       <div className="overflow-scroll scroll-bar-1 pt-30">
@@ -91,6 +109,17 @@ const TenantTable = ({ data, currentPage, setCurrentPage, totalPage }) => {
                     <RiCustomerService2Fill size={20} />
                   </div>
                 </td>
+                {["super", "admin"].includes(AuthUser.role) && (
+                  <td>
+                    <button
+                      onClick={() => handleDelete(row.id)}
+                      className="btn btn-secondary "
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
