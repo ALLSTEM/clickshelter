@@ -50,6 +50,17 @@ const ResetPassword = () => {
 
     try {
       setLoading(true);
+
+      console.log(
+        email,
+        "token",
+        pin,
+        "token_id",
+        tokenID,
+        "password",
+        password
+      );
+
       const response = await requests.post(`/auth/password/confirm`, {
         email,
         token: pin,
@@ -155,7 +166,7 @@ const ResetPassword = () => {
                         type="password"
                         required
                         value={password}
-                        onChange={(e) => setPassword(e.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         name="password"
                       />
                       <label className="lh-1 text-14 text-light-1">
