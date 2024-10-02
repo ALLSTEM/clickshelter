@@ -64,7 +64,7 @@ const ResetPassword = () => {
       const response = await requests.post(`/auth/password/confirm`, {
         email,
         token: pin,
-        token_id: tokenID,
+        token_id: localTokenId,
         password: password,
       });
 
