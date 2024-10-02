@@ -54,6 +54,7 @@ const ResetPassword = () => {
         email,
         token: pin,
         token_id: tokenID,
+        password: password,
       });
 
       console.log("Account confirmed:", response.data);
