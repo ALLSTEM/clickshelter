@@ -17,6 +17,7 @@ import {
 import InvoiceComponent from "../invoice/Invoice";
 import { authRequests } from "@/utils/http";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const statusOptions = ["completed", "failed", "pending"];
 
@@ -113,6 +114,8 @@ const PayoutTable = ({
     }
   };
 
+  const { user } = useSelector((state) => state.auth);
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this payout?")) {
       try {
@@ -193,13 +196,15 @@ const PayoutTable = ({
                   >
                     <RiEyeLine size={20} />
                   </div>
-                  <div
-                    title="View Invoice"
-                    className="tw-mr-3 tw-cursor-pointer"
-                    onClick={() => handleDelete(row.id)}
-                  >
-                    <RiDeleteBinLine className="tw-text-red-400" size={20} />
-                  </div>
+                  {user.type == "admin" && (
+                    <div
+                      title="View Invoice"
+                      className="tw-mr-3 tw-cursor-pointer"
+                      onClick={() => handleDelete(row.id)}
+                    >
+                      <RiDeleteBinLine className="tw-text-red-400" size={20} />
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
