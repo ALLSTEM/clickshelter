@@ -101,27 +101,30 @@ export default function GalleryOne({ space }) {
               </div>
               {/* End .galleryGrid__item */}
 
-              {space?.images.slice(0, 4).map((image, index) => (
-                <div className="galleryGrid__item">
-                  <Item
-                    original={image}
-                    thumbnail={image}
-                    width={450}
-                    height={375}
-                  >
-                    {({ ref, open }) => (
-                      <img
-                        ref={ref}
-                        onClick={open}
-                        src={image}
-                        alt="image"
-                        className="rounded-4"
-                        role="button"
-                      />
-                    )}
-                  </Item>
-                </div>
-              ))}
+              {space?.images &&
+                JSON.parse(space?.images)
+                  .slice(0, 4)
+                  .map((image, index) => (
+                    <div className="galleryGrid__item">
+                      <Item
+                        original={image}
+                        thumbnail={image}
+                        width={450}
+                        height={375}
+                      >
+                        {({ ref, open }) => (
+                          <img
+                            ref={ref}
+                            onClick={open}
+                            src={image}
+                            alt="image"
+                            className="rounded-4"
+                            role="button"
+                          />
+                        )}
+                      </Item>
+                    </div>
+                  ))}
             </div>
           </Gallery>
         </div>

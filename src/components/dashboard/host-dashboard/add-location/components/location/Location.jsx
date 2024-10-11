@@ -27,12 +27,16 @@ const Location = ({
       </div>
       <div className="col-lg-6 col-md-6">
         <div className="form-input">
-          <input
-            type="text"
+          <select
             required
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-          />
+            className="text-16 lh-1 text-light-1"
+          >
+            <option value="">Select a country</option>
+            <option value="united_kingdom">United Kingdom</option>
+            <option value="canada">Canada</option>
+          </select>
           <label className="lh-1 text-16 text-light-1">Country</label>
         </div>
       </div>

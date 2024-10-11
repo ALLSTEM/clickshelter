@@ -5,6 +5,7 @@ import PayoutTable from "@/components/tables/payout-table";
 import { payoutData } from "@/data/dummy";
 import { authRequests } from "@/utils/http";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const metadata = {
   title: "Host Payout",
@@ -17,11 +18,13 @@ export default function HostPayout() {
 
   const [payouts, setPayouts] = useState([]);
 
+  const { user } = useSelector((state) => state.auth);
+
   useEffect(() => {
     async function getPayouts() {
       try {
         const response = await authRequests.get(
-          `/host/payouts?page=${currentPage}`
+          `/host/payouts?page=${currentPage}&host_id=${user.id}`
         );
 
         setPayouts(response.data.data);

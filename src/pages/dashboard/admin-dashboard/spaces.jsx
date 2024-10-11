@@ -37,11 +37,17 @@ export default function AdminSpaces() {
     <>
       <MetaComponent meta={metadata} />
       <div className="row y-gap-20 justify-between items-end pb-60 lg:pb-40 md:pb-32">
-        <div className="col-12">
-          <h1 className="text-30 lh-14 fw-600">Spaces</h1>
-          <div className="text-15 text-light-1">
-            Manage Houses On ClickShelter
+        <div className="col-12 justify-between d-flex">
+          <div>
+            <h1 className="text-30 lh-14 fw-600">Spaces</h1>
+            <div className="text-15 text-light-1">See your houses</div>
           </div>
+          <button
+            className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
+            onClick={() => navigator("/dashboard/spaces/add")}
+          >
+            New Space
+          </button>
         </div>
 
         {/* End .col-12 */}

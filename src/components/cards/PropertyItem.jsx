@@ -74,17 +74,15 @@ const PropertyItem = ({ item }) => {
               nextArrow={<ArrowSlick type="next" />}
               prevArrow={<ArrowSlick type="prev" />}
             >
-              {item?.images?.slice(0, 3).map((slide, i) => (
-                <div className="cardImage ratio ratio-1:1" key={i}>
-                  <div className="cardImage__content ">
-                    <img
-                      className="rounded-4 col-12 js-lazy"
-                      src={slide}
-                      alt="image"
-                    />
-                  </div>
+              <div className="cardImage ratio ratio-1:1">
+                <div className="cardImage__content ">
+                  <img
+                    className="rounded-4 col-12 js-lazy"
+                    src={item.image}
+                    alt="image"
+                  />
                 </div>
-              ))}
+              </div>
             </Slider>
 
             <div className="cardImage__wishlist">
@@ -129,12 +127,12 @@ const PropertyItem = ({ item }) => {
           <h4 className="hotelsCard__title text-dark-1 text-18 lh-16 fw-500">
             <span>{item?.space_name}</span>
           </h4>
-          <p className="text-light-1 lh-14 text-14 mt-5">{item?.address}</p>
+          {/* <p className="text-light-1 lh-14 text-14 mt-5">{item?.address}</p> */}
 
           <div className="mt-5">
             <div className="fw-500">
               Starting from{" "}
-              <span className="text-blue-1">US${item?.space_price}</span>
+              <span className="text-blue-1">${item?.space_price}</span>
             </div>
           </div>
         </div>

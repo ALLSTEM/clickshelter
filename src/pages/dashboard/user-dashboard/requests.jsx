@@ -70,13 +70,16 @@ export default function UserRequests() {
             <h1 className="text-30 lh-14 fw-600">Requests</h1>
             <div className="text-15 text-light-1">Manage requests</div>
           </div>
-          <button
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
-          >
-            New Request <div className="icon-arrow-top-right ml-15" />
-          </button>
+
+          {data.user.type == "user" && (
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              className="button h-50 px-24 -dark-1 bg-blue-1 text-white"
+            >
+              New Request <div className="icon-arrow-top-right ml-15" />
+            </button>
+          )}
         </div>
         {/* End .col-12 */}
       </div>

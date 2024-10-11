@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { requests } from "@/utils/http";
 import { handleChange } from "@/utils/input";
 import { toast } from "react-toastify";
 
 const SignUpForm = () => {
+  const [isHostSignup, setIsHostSignup] = useState(false);
+
   const initialUserInfo = {
     firstName: "",
     lastName: "",
@@ -23,6 +25,12 @@ const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    setIsHostSignup(searchParams.get("type") === "host");
+  }, [location]);
 
   const handleRegister = async (e) => {
     console.log("asnsjknjwe");
@@ -41,6 +49,7 @@ const SignUpForm = () => {
         address_line_two: userInfo.addressLine2,
         state: userInfo.state,
         country: userInfo.country,
+        type: isHostSignup ? "host" : "user",
       });
 
       console.log("Registration successful:", response.data);

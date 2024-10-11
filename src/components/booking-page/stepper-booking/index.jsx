@@ -88,14 +88,14 @@ const Index = () => {
     return date.toISOString().split("T")[0]; // Convert to YYYY-MM-DD format
   };
 
-  function formatDateToDDMMYY(timestamp) {
+  function formatDateToYYYYMMDD(timestamp) {
     const date = new Date(timestamp);
 
-    const day = date.getDate().toString().padStart(2, "0");
+    const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-indexed
-    const year = date.getFullYear().toString().slice(-2); // Get last 2 digits of the year
+    const day = date.getDate().toString().padStart(2, "0");
 
-    return `${day}-${month}-${year}`;
+    return `${year}-${month}-${day}`;
   }
 
   const handleSubmitRequest = async () => {
@@ -103,12 +103,12 @@ const Index = () => {
       space_id: id, // Assuming you have a space ID to submit
       guest_adults: reservationDetails.guestCounts.Adults,
       guest_children: reservationDetails.guestCounts.Children,
-      move_in_date: formatDateToDDMMYY(reservationDetails.moveInDate), // Assuming dates[0] is the move-in date
+      move_in_date: formatDateToYYYYMMDD(reservationDetails.moveInDate), // Assuming dates[0] is the move-in date
       email: userInfo.email,
       address_line_one: userInfo.addressLine1,
       address_line_two: userInfo.addressLine2,
       state: userInfo.state,
-      country: "United States", // Hardcoded for this example, replace as needed
+      country: reservationDetails.location, // Hardcoded for this example, replace as needed
       zip_code: reservationDetails.zipCode,
       first_name: userInfo.firstName,
       last_name: userInfo.lastName,

@@ -29,7 +29,7 @@ const data = [
   {
     title: "Hosts",
     amount: "200",
-    description: "Total unread messages",
+    description: "Total hosts",
     icon: "/img/dashboard/icons/4.svg",
   },
   {

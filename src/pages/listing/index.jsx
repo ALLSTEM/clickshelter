@@ -55,11 +55,11 @@ const HouseListPage = () => {
 
         const { data, ...paginationDetails } = response.data;
 
-        console.log(paginationDetails);
+        console.log(response);
 
-        // setFilteredItems(data);
-        // setPaginationData(paginationDetails);
-        // setPage(paginationDetails.current_page);
+        setFilteredItems(data);
+        setPaginationData(paginationDetails);
+        setPage(paginationDetails.current_page);
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
