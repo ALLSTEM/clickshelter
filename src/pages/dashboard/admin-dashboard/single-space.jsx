@@ -151,24 +151,29 @@ export default function SingleSpace() {
                     <div className="size-3 rounded-full bg-light-1" />
                   </div>
                 </div>
+                {space?.services ? (
+                  <div className="row x-gap-10 y-gap-10 pt-20">
+                    {JSON.parse(space.services)
+                      .slice(0, 3)
+                      .map((space) => (
+                        <div className="col-auto">
+                          <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                            {space}
+                          </div>
+                        </div>
+                      ))}
 
-                <div className="row x-gap-10 y-gap-10 pt-20">
-                  {space.services.slice(0, 3).map((space) => (
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        {space}
+                    {JSON.parse(space.services).length > 3 && (
+                      <div className="col-auto">
+                        <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                          ...more
+                        </div>
                       </div>
-                    </div>
-                  ))}
-
-                  {space.services.length > 3 && (
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        ...more
-                      </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                ) : (
+                  <p>No services</p>
+                )}
               </div>
 
               <div className="col-md-auto text-right md:text-left">

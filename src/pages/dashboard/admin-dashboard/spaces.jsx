@@ -87,24 +87,29 @@ export default function AdminSpaces() {
                 </div>
                 {/* End .row */}
 
-                <div className="row x-gap-10 y-gap-10 pt-20">
-                  {item.services.slice(0, 3).map((item) => (
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        {item}
-                      </div>
-                    </div>
-                  ))}
+                {item?.services ? (
+                  <div className="row x-gap-10 y-gap-10 pt-20">
+                    {JSON.parse(item.services)
+                      .slice(0, 3)
+                      .map((item) => (
+                        <div className="col-auto">
+                          <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                            {item}
+                          </div>
+                        </div>
+                      ))}
 
-                  {item.services.length > 3 && (
-                    <div className="col-auto">
-                      <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
-                        ...more
+                    {JSON.parse(item.services).length > 3 && (
+                      <div className="col-auto">
+                        <div className="border-light rounded-100 py-5 px-20 text-14 lh-14">
+                          ...more
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-                {/* End .row */}
+                    )}
+                  </div>
+                ) : (
+                  <p>No services</p>
+                )}
               </div>
               {/* End col */}
 
