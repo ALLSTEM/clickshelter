@@ -22,6 +22,7 @@ const Index = () => {
     lastName: "",
     email: "",
     phoneNumber: "",
+    phoneCode: "",
     addressLine1: "",
     addressLine2: "",
     state: "",
@@ -122,6 +123,8 @@ const Index = () => {
       budget_max: reservationDetails.budgetMax, // New field
       additional_info: reservationDetails.additionalInfo, // New field
       special_requests: userInfo.specialRequests, // New field
+      phone: userInfo.phoneNumber,
+      phone_code: userInfo.phoneCode,
     };
 
     console.log(formData);

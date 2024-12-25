@@ -5,6 +5,33 @@ import { authRequests } from "@/utils/http";
 import { toast } from "react-toastify";
 
 const PersonalInfo = () => {
+  const phoneCodes = [
+    { code: "+1", country: "US/CA" },
+    { code: "+44", country: "UK" },
+    { code: "+234", country: "Nigeria" },
+    { code: "+91", country: "India" },
+    { code: "+86", country: "China" },
+    { code: "+81", country: "Japan" },
+    { code: "+82", country: "South Korea" },
+    { code: "+61", country: "Australia" },
+    { code: "+64", country: "New Zealand" },
+    { code: "+27", country: "South Africa" },
+    { code: "+55", country: "Brazil" },
+    { code: "+52", country: "Mexico" },
+    { code: "+33", country: "France" },
+    { code: "+49", country: "Germany" },
+    { code: "+39", country: "Italy" },
+    { code: "+34", country: "Spain" },
+    { code: "+7", country: "Russia" },
+    { code: "+966", country: "Saudi Arabia" },
+    { code: "+971", country: "UAE" },
+    { code: "+65", country: "Singapore" },
+    { code: "+60", country: "Malaysia" },
+    { code: "+62", country: "Indonesia" },
+    { code: "+20", country: "Egypt" },
+    { code: "+254", country: "Kenya" },
+  ];
+
   const { user } = useSelector((state) => state.auth);
   const [errors, setErrors] = useState([]);
   const [formData, setFormData] = useState({
@@ -12,6 +39,7 @@ const PersonalInfo = () => {
     last_name: user?.last_name || "",
     email: user?.email || "",
     phone: user?.phone || "",
+    phone_code: user?.phone_code || "",
     about: user?.about || "",
   });
 
@@ -97,13 +125,40 @@ const PersonalInfo = () => {
             </div>
             {/* End col-6 */}
 
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
               <div className="form-input ">
                 <input
                   type="text"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
+                />
+                <label className="lh-1 text-16 text-light-1">
+                  Phone Number
+                </label>
+              </div>
+            </div> */}
+            <div className="col-md-6">
+              <div className="form-input flex">
+                <select
+                  name="phone_code"
+                  value={formData.phone_code || "+1"}
+                  onChange={handleInputChange}
+                  className="w-10 border-r mr-2 tw-w-2/5 tw-p-0"
+                >
+                  {phoneCodes.map((pc) => (
+                    <option key={pc.code} value={pc.code}>
+                      {pc.code}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  required
+                  className="flex-1 tw-w-1/3"
                 />
                 <label className="lh-1 text-16 text-light-1">
                   Phone Number
